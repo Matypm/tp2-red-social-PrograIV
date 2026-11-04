@@ -1,0 +1,39 @@
+<div class="modal-overlay">
+    <div class="modal-card">
+
+        <div class="modal-header">
+            <h2>{{ titulo() }}</h2>
+
+            <button 
+                type="button" 
+                class="modal-close"
+                (click)="cerrar.emit()">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-icon" [class]="tipo()">
+                @if (tipo() === 'error') {
+                    !
+                } @else if (tipo() === 'exito') {
+                    ✓
+                } @else {
+                    i
+                }
+            </div>
+
+            <p>{{ mensaje() }}</p>
+        </div>
+
+        <div class="modal-footer">
+            <button 
+                type="button" 
+                class="modal-btn"
+                (click)="cerrar.emit()">
+                Cerrar
+            </button>
+        </div>
+
+    </div>
+</div>

@@ -1,1 +1,37 @@
-<p>login-component works!</p>
+<div class="auth-page">
+    <div class="auth-card">
+        <img class="auth-logo" src="nexocat.png" alt="Nexocat">
+        <h2 class="auth-title">Iniciar Sesión</h2>
+        <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="identificador">Correo electronico/usuario</label>
+                <input type="text" formControlName="identificador" id="identificador">
+            </div>
+            <div class="form-group">
+                <label for="contrasenia">Contraseña</label>
+                <input type="password" id="contrasenia" formControlName="contrasenia">
+            </div>
+
+            <!-- @if (msjError()) {
+                <div class="msg msg-error">{{ msjError() }}</div>
+            } -->
+
+            <button class="auth-btn" type="submit" [disabled]="loginForm.invalid || cargando()">
+                {{ cargando() ? 'Ingresando...' : 'Entrar' }}
+            </button>
+
+            <p class="auth-footer">
+                ¿No tenés cuenta? <a routerLink="/register">Registrate acá</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+@if (modalVisible()) {
+    <app-modal
+        [titulo]="modalTitulo()"
+        [mensaje]="modalMsj()"
+        [tipo]="modalTipo()"
+        (cerrar)="cerrarModal()">
+    </app-modal>
+}

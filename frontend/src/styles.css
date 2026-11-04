@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@600&display=swap');
+
+:root {
+  --bg:          #F6F3EE;
+  --surface:     #FBF9F5;
+  --border:      #E4DFD6;
+  --border-input: #CBC3B6;  /* más marcado, para que los inputs se vean */
+  --text:        #1C1B1A;
+  --text-muted:  #7A756D;
+  --accent:      #C9A98A;
+  --accent-soft: #EFE7DC;
+  --error-bg:    #F6E4E0;
+  --error-text:  #8C3B30;
+}
