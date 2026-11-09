@@ -29,4 +29,13 @@ export class UsuariosService {
 
     }
 
+    async buscarPorCorreoONombreUser(correo: string, nombre_usuario: string){
+        return this.modelo.findOne({
+            $or: [
+                { correo },
+                { nombre_usuario }
+            ]
+        }).exec();
+    }
+
 }

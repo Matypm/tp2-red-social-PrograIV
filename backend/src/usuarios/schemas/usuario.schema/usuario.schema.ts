@@ -19,13 +19,10 @@ export class UsuarioMongo {
     contrasenia!: string
 
     @Prop({ required: true })
-    repetir_contrasenia!: string
-
-    @Prop({ required: true })
-    fecha_nacimiento: string
+    fecha_nacimiento!: string
     
     @Prop({ default: ''})
-    descripcion: string
+    descripcion!: string
 
     @Prop({ default: '' })
     img_perfil!: string
