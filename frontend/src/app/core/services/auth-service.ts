@@ -14,12 +14,27 @@ export class AuthService {
     currentUser = signal<any | null>(null);
     currentPerfil = signal<any | null>(null);
 
-    signIn(datos: LoginInterface){
+    signIn(datos: LoginInterface) {
         return this.apiService.post('login', datos);
     }
 
-    signUp(datos: RegisterInterface){
-        return this.apiService.post('register', datos);
+    signUp(datos: RegisterInterface) {
+        const formData = new FormData();
+
+        formData.append('nombre', datos.nombre);
+        formData.append('apellido', datos.apellido);
+        formData.append('correo', datos.correo);
+        formData.append('nombre_usuario', datos.nombre_usuario);
+        formData.append('contrasenia', datos.contrasenia);
+        formData.append('repetir_contrasenia', datos.repetir_contrasenia);
+        formData.append('fecha_nacimiento', datos.fecha_nacimiento);
+        formData.append('descripcion', datos.descripcion);
+
+        if (datos.img_perfil) {
+            formData.append('img_perfil', datos.img_perfil);
+        }
+
+        return this.apiService.post('register', formData);
     }
 
 

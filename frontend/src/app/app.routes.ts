@@ -17,7 +17,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/publicaciones/publicaciones-component').then(c => c.PublicacionesComponent)
     },
     {
-        path: 'mi-perfil',
+        path: 'perfil',
         loadComponent: () => import('./features/mi-perfil/mi-perfil-component').then(c => c.MiPerfilComponent)
     }
 ];

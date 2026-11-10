@@ -48,7 +48,7 @@ export class RegisterComponent {
     mes: ['', [Validators.required]],
     anio: ['', [Validators.required, Validators.min(1910), Validators.max(this.anioActual)]],
     descripcion: ['', [Validators.maxLength(250)]],
-    img_perfil: ['']
+    img_perfil: this.fb.control<File | null>(null)
   });
 
   cargando = signal(false);
@@ -67,6 +67,10 @@ export class RegisterComponent {
 
   cerrarModal() {
     this.modalVisible.set(false);
+
+    if (this.modalTipo() === 'exito') {
+      this.router.navigate(['/publicaciones']);
+    }
   }
 
   validarContrasenias(): boolean {
@@ -162,7 +166,8 @@ export class RegisterComponent {
       repetir_contrasenia: formulario.repetir_contrasenia,
       // padStart(2, '0') sirve para garantizar que el día tenga dos dígitos. Si ingresás 5, lo transforma en 05.
       fecha_nacimiento: `${formulario.anio}-${formulario.mes}-${String(formulario.dia).padStart(2, '0')}`,
-      descripcion: formulario.descripcion
+      descripcion: formulario.descripcion,
+      img_perfil: formulario.img_perfil
     };
 
     this.cargando.set(true);
@@ -174,7 +179,6 @@ export class RegisterComponent {
 
         this.mostrarModal('¡Cuenta creada!', 'Su cuenta se creo correctamente.', 'exito');
 
-        this.router.navigate(['/publicaciones'])
       },
       error: (error) => {
         console.error('Error al ingresar: ', error)
@@ -205,7 +209,42 @@ export class RegisterComponent {
     });
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const archivo = input.files?.[0] ?? null;
 
+    if (!archivo) {
+      this.registerForm.controls.img_perfil.setValue(null);
+      return;
+    }
 
+    const formatosValidos = ['image/jpeg', 'image/png', 'image/webp'];
+
+    if (!formatosValidos.includes(archivo.type)) {
+      this.mostrarModal(
+        'Formato inválido',
+        'Solo se admiten imágenes JPEG, PNG o WebP.',
+        'error'
+      );
+
+      input.value = '';
+      this.registerForm.controls.img_perfil.setValue(null);
+      return;
+    }
+
+    if (archivo.size > 5 * 1024 * 1024) {
+      this.mostrarModal(
+        'Imagen demasiado grande',
+        'La imagen no puede superar los 5 MB.',
+        'error'
+      );
+
+      input.value = '';
+      this.registerForm.controls.img_perfil.setValue(null);
+      return;
+    }
+
+    this.registerForm.controls.img_perfil.setValue(archivo);
+  }
 
 }

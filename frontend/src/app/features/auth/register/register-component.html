@@ -70,12 +70,17 @@
 
       <div class="form-group">
         <label for="img_perfil">Imagen de perfil</label>
-        <input type="file" id="img_perfil" accept="image/*">
+        <input 
+          type="file" 
+          id="img_perfil" 
+          accept="image/jpeg,image/png,image/webp"
+          (change)="onFileSelected($event)">
       </div>
 
       <button
         class="auth-btn"
-        type="submit">
+        type="submit"
+        [disabled]="cargando()">
         {{ cargando() ? 'Registrando...' : 'Crear cuenta' }}
       </button>
 
