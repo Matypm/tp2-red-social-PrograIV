@@ -16,7 +16,7 @@
                 <div class="msg msg-error">{{ msjError() }}</div>
             } -->
 
-            <button class="auth-btn" type="submit" [disabled]="loginForm.invalid || cargando()">
+            <button class="auth-btn" type="submit">
                 {{ cargando() ? 'Ingresando...' : 'Entrar' }}
             </button>
 

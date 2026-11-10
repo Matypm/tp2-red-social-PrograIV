@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from './api-service';
 import { LoginInterface } from '../interfaces/login.interface';
+import { RegisterInterface } from '../interfaces/register.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,11 @@ export class AuthService {
     currentPerfil = signal<any | null>(null);
 
     signIn(datos: LoginInterface){
-        return this.apiService.post('login', datos)
+        return this.apiService.post('login', datos);
+    }
+
+    signUp(datos: RegisterInterface){
+        return this.apiService.post('register', datos);
     }
 
 

@@ -47,8 +47,25 @@ export class LoginComponent {
   onSubmit() {
 
     if (this.loginForm.invalid) {
-        this.loginForm.markAllAsTouched();
-        return;
+      this.loginForm.markAllAsTouched();
+
+      const contrasenia = this.loginForm.controls.contrasenia;
+
+      if (contrasenia.hasError('required')) {
+          this.mostrarModal(
+            'Contraseña requerida',
+            'Ingresá tu contraseña.',
+            'error'
+          );
+        } else if (contrasenia.hasError('minlength') || contrasenia.hasError('pattern')) {
+          this.mostrarModal(
+            'Contraseña inválida',
+            'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.',
+            'error'
+          );
+        }
+
+      return;
     }
 
     const datos = this.loginForm.getRawValue();
@@ -59,13 +76,27 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso!', response);
         this.cargando.set(false);
+
+        this.router.navigate(['/publicaciones'])
       },
       error: (error) => {
         console.error('Error al ingresar: ', error)
         this.cargando.set(false);
+
+        if(error.status === 401){
+          this.mostrarModal('Error al iniciar sesión',
+          'El usuario o contraseña son incorrectos.',
+          'error');
+        }
+        else{
+          this.mostrarModal('Error',
+            'Ocurrio un problema al tratar de iniciar sesión. Intente nuevamente',
+            'error'
+          );
+        }
+
+
       }
-    })
-
-    }
-
+    });
+  }
 }

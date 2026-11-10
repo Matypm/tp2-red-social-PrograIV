@@ -7,5 +7,5 @@ export interface RegisterInterface {
     repetir_contrasenia: string,
     fecha_nacimiento: string,
     descripcion: string,
-    img_perfil: File | null
+    img_perfil?: File | null
 }
