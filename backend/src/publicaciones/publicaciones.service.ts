@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PublicacionMongo } from './schemas/publicacion.schema.js';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
+import { ConsultarPublicacionesDto } from './dto/consultar-publicaciones.dto.js';
 
 @Injectable()
 export class PublicacionesService {
@@ -66,5 +67,58 @@ export class PublicacionesService {
         }
     }
 
+    async listar(datos: ConsultarPublicacionesDto) {
+        const orden = datos.orden ?? 'fecha';
+        const offset = datos.offset ?? 0;
+        const limit = datos.limit ?? 10;
 
+        const filtro: any = { eliminada: false, };
+
+        if (datos.usuarioId) {
+            filtro.usuario = new Types.ObjectId(datos.usuarioId);
+        }
+
+        const publicaciones = await this.modelo.aggregate([
+            { $match: filtro },
+            {
+                $addFields: {
+                    cantidad_likes: { $size: '$likes' },
+                },
+            },
+            {
+                $sort:
+                    orden === 'likes'
+                        ? { cantidad_likes: -1 }
+                        : { fecha_creacion: -1 },
+            },
+            { $skip: offset },
+            { $limit: limit },
+            {
+                $lookup: {
+                    from: 'usuarios',
+                    localField: 'usuario',
+                    foreignField: '_id',
+                    as: 'autor',
+                },
+            },
+            { $unwind: '$autor' },
+            {
+                $project: {
+                    'autor.contrasenia': 0,
+                    'autor.correo': 0,
+                    'autor.fecha_nacimiento': 0,
+                    'autor.img_perfil_public_id': 0,
+                },
+            },
+        ]);
+
+        const total = await this.modelo.countDocuments(filtro);
+
+        return {
+            publicaciones,
+            total,
+            offset,
+            limit,
+        };
+    }
 }
