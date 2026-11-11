@@ -25,8 +25,8 @@ export class UsuariosService {
         }).exec();
     }
 
-    async buscarUserPorId() {
-
+    async buscarUserPorId(id: string) {
+        return this.modelo.findById(id).exec();
     }
 
     async buscarPorCorreoONombreUser(correo: string, nombre_usuario: string){

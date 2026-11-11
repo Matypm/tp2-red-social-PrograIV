@@ -75,6 +75,9 @@ export class LoginComponent {
     this.authService.signIn(datos).subscribe({
       next: (response) => {
         console.log('Login exitoso!', response);
+
+        this.authService.guardarUsuario(response);
+
         this.cargando.set(false);
 
         this.router.navigate(['/publicaciones'])

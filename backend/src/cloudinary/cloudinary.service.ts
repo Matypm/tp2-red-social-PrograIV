@@ -82,7 +82,7 @@ export class CloudinaryService {
     }
 
 
-    async subir(buffer: Buffer): Promise<{ url: string, publicId: string }> {
+    async subir(buffer: Buffer, carpeta: string = 'perfiles'): Promise<{ url: string, publicId: string }> {
         // Recibe los bytes del WebP ya validado y convertido por normalizar().
         // Lee las credenciales del servidor; nunca se reciben desde el cliente.
         const opciones = this.opciones();
@@ -98,7 +98,7 @@ export class CloudinaryService {
                     resource_type: 'image',
                     allowed_formats: ['webp'],
                     // Genera el identificador en el servidor, sin usar el nombre del archivo.
-                    public_id: `perfiles/${randomUUID()}`,
+                    public_id: `${carpeta}/${randomUUID()}`,
                     // Evita reemplazar un recurso existente con el mismo identificador.
                     overwrite: false,
                     // Timeout de la petición a Cloudinary, expresado en milisegundos.

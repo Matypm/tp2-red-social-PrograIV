@@ -37,5 +37,9 @@ export class AuthService {
         return this.apiService.post('register', formData);
     }
 
+    guardarUsuario(usuario: any) {
+        this.currentUser.set(usuario);
+    }
+
 
 }
