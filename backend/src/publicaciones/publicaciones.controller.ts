@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PublicacionesService } from './publicaciones.service.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
@@ -27,5 +27,29 @@ export class PublicacionesController {
     @Get()
     listar(@Query() datos: ConsultarPublicacionesDto){
         return this.publicacionesService.listar(datos);
+    }
+
+    @Post(':id/likes')
+    darLike(
+        @Param('id') publicacionId: string,
+        @Body('usuarioId') usuarioId: string
+    ) {
+        return this.publicacionesService.darLike(publicacionId, usuarioId);
+    }
+
+    @Delete(':id/likes') // :id representa el ID de la publicación
+    sacarLike(
+        @Param('id') publicacionId : string, // @Param('id') obtiene ese ID de la URL.
+        @Body('usuarioId') usuarioId : string // @Body('usuarioId') obtiene el usuario desde el cuerpo de la petición.
+    ) {
+        return this.publicacionesService.sacarLike(publicacionId, usuarioId);
+    }
+
+    @Delete(':id')
+    eliminarPublicacion(
+        @Param('id') publicacionId : string,
+        @Body('usuarioId') usuarioId : string
+    ) {
+        return this.publicacionesService.eliminarPublicacion(publicacionId, usuarioId);
     }
 }
