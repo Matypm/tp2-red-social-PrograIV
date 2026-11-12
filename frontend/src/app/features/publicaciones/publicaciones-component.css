@@ -66,6 +66,42 @@
   transform: scale(1.03);
 }
  
+.contenedor-publicaciones {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 16px 56px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+}
+ 
+.lista-publicaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+ 
+/* ---- Estados: cargando / vacío / error ---- */
+.mensaje-estado,
+.mensaje-error {
+  margin: 48px 0;
+  text-align: center;
+  font-size: 0.95rem;
+}
+ 
+.mensaje-estado {
+  color: var(--text-muted);
+}
+ 
+.mensaje-error {
+  padding: 12px 16px;
+  color: var(--error-text);
+  background: var(--error-bg);
+  border-radius: 12px;
+}
+ 
+
+
 /* ---- Celulares ---- */
 @media (max-width: 520px) {
   .header {
@@ -82,5 +118,12 @@
   .btn-perfil {
     padding: 7px 12px;
     font-size: 0.8rem;
+  }
+
+  .contenedor-publicaciones {
+    padding: 20px 12px 40px;
+  }
+  .lista-publicaciones {
+    gap: 14px;
   }
 }

@@ -1,0 +1,138 @@
+:host {
+  display: block;
+}
+ 
+.publicacion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  transition: border-color 0.3s ease;
+}
+ 
+.publicacion:hover {
+  border-color: var(--border-input);
+}
+ 
+/* ---- Autor ---- */
+.encabezado-publicacion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+ 
+.foto-perfil {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--accent-soft);
+  background: var(--accent-soft);
+}
+ 
+.datos-autor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+ 
+.datos-autor h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+}
+ 
+.datos-autor span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+ 
+/* ---- Contenido ---- */
+.contenido-publicacion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+ 
+.contenido-publicacion h2 {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+ 
+.contenido-publicacion p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-line;      /* respeta los saltos de línea que escribió el usuario */
+  overflow-wrap: anywhere;
+}
+ 
+.imagen-publicacion {
+  display: block;
+  width: 100%;
+  max-height: 450px;
+  margin-top: 4px;
+  object-fit: contain;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+ 
+/* ---- Acciones ---- */
+.acciones-publicacion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+ 
+/* Botón de me gusta */
+.acciones-publicacion button {
+  padding: 7px 16px;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, transform 0.3s ease;
+}
+ 
+.acciones-publicacion button:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: scale(1.04);
+}
+ 
+/* Cuando el usuario ya le dio like */
+.acciones-publicacion button.like-activo {
+  color: #8A6440;
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+ 
+/* Mientras se procesa el like */
+.acciones-publicacion button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+ 
+/* Contador */
+.acciones-publicacion span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

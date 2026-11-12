@@ -10,22 +10,22 @@ export class PublicacionesService {
 
     private apiService = inject(ApiService);
 
-    async listar(datos: ConsultarPublicacionesInterface) {
+    listar(datos: ConsultarPublicacionesInterface) {
         return this.apiService.get<RespuestaPublicacionesInterface>
         ('publicaciones', datos);
     }
 
-    async darLike(publicacionId: string, usuarioId: string) {
+    darLike(publicacionId: string, usuarioId: string) {
         return this.apiService.post
         (`publicaciones/${publicacionId}/likes`, { usuarioId });
     }
 
-    async sacarLike(publicacionId: string, usuarioId: string) {
+    sacarLike(publicacionId: string, usuarioId: string) {
         return this.apiService.delete
         (`publicaciones/${publicacionId}/likes`, { usuarioId });
     }
 
-    async eliminarPublicacion(publicacionId: string, usuarioId: string) {
+    eliminarPublicacion(publicacionId: string, usuarioId: string) {
         return this.apiService.delete
         (`publicaciones/${publicacionId}`, { usuarioId });
     }

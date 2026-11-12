@@ -9,3 +9,32 @@
     Mi perfil
   </a>
 </header>
+<main class="contenedor-publicaciones">
+
+  @if (cargando()) {
+  <p class="mensaje-estado">Cargando publicaciones...</p>
+  }
+
+  @else if (error()) {
+  <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  @else if (publicaciones().length === 0) {
+  <p class="mensaje-estado">Todavía no hay publicaciones.</p>
+  }
+
+  @else {
+  <section class="lista-publicaciones">
+
+    @for (publicacion of publicaciones(); track publicacion._id) {
+
+    <app-publicacion-component 
+      [publicacion]="publicacion"
+      (publicacionActualizada)="actualizarPublicacion($event)"
+    />
+
+    }
+  </section>
+  }
+
+</main>

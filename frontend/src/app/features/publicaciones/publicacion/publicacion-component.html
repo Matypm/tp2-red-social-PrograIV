@@ -1,0 +1,47 @@
+<div class="publicacion">
+
+    <header class="encabezado-publicacion">
+        <img [src]="publicacion().autor.img_perfil || '/usuario.png'" [alt]="'Foto de ' + publicacion().autor.nombre"
+            class="foto-perfil">
+
+        <div class="datos-autor">
+            <h3>
+                {{ publicacion().autor.nombre }}
+                {{ publicacion().autor.apellido }}
+            </h3>
+
+            <span>
+                @{{ publicacion().autor.nombre_usuario }}
+            </span>
+        </div>
+    </header>
+
+    <div class="contenido-publicacion">
+        <h2>{{ publicacion().titulo }}</h2>
+
+        <p>{{ publicacion().descripcion }}</p>
+
+        @if (publicacion().imagen) {
+        <img [src]="publicacion().imagen" [alt]="'Imagen de ' + publicacion().titulo" class="imagen-publicacion">
+        }
+    </div>
+
+    <footer class="acciones-publicacion">
+
+        <button type="button" (click)="darOSacarLike()" [disabled]="procesandoLike()"
+            [class.like-activo]="publicacion().likes.includes(authService.currentUser()?._id)">
+            @if (publicacion().likes.includes(authService.currentUser()?._id)) {
+            ♥ Te gusta
+            }
+            @else {
+            ♡ Me gusta
+            }
+        </button>
+
+        <span>
+            {{ publicacion().cantidad_likes }} Me gusta
+        </span>
+
+    </footer>
+
+</div>
