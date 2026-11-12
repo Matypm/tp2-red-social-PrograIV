@@ -1,21 +1,29 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
+  z-index: 1000;
+
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 35px 20px;
+  align-items: center;
+
+  padding: 20px;
+  overflow-y: auto;
+
   background: rgba(28, 27, 26, 0.35);
   animation: fadeIn 0.25s ease;
 }
 
 .modal-card {
+  box-sizing: border-box;
   width: 100%;
   max-width: 420px;
+
   background: var(--surface, #FBF9F5);
   border: 1px solid var(--border, #E4DFD6);
   border-radius: 16px;
   padding: 22px;
+
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   animation: slideDown 0.3s ease;
 }
