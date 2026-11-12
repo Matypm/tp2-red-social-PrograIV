@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { PublicacionesService } from '../../core/services/publicaciones-service';
 import { PublicacionInterface } from '../../core/interfaces/publicaciones.interface';
 import { PublicacionComponent } from './publicacion/publicacion-component';
+import { AuthService } from '../../core/services/auth-service';
 
 @Component({
   imports: [RouterLink, PublicacionComponent],
@@ -13,6 +14,7 @@ import { PublicacionComponent } from './publicacion/publicacion-component';
 export class PublicacionesComponent implements OnInit {
 
   private publicacionesService = inject(PublicacionesService);
+  authService = inject(AuthService);
 
   publicaciones = signal<PublicacionInterface[]>([]);
   cargando = signal(false);

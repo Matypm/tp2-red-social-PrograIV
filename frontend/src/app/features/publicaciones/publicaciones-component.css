@@ -45,9 +45,17 @@
   color: var(--text);
   text-align: center;
 }
+
+.acciones-header {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
  
 /* ---- Botón de perfil ---- */
 .btn-perfil {
+  white-space: nowrap;
   justify-self: end;
   padding: 9px 18px;
   font-size: 0.88rem;

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiService } from './api-service';
 import { LoginInterface } from '../interfaces/login.interface';
 import { RegisterInterface } from '../interfaces/register.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,7 @@ import { RegisterInterface } from '../interfaces/register.interface';
 export class AuthService {
 
     private apiService = inject(ApiService);
+    private router = inject(Router);
 
     currentUser = signal<any | null>(null);
     currentPerfil = signal<any | null>(null);
@@ -50,5 +52,12 @@ export class AuthService {
         }
     }
 
+    cerrarSesion(): void {
+        this.currentUser.set(null);
+        this.currentPerfil.set(null);
 
+        localStorage.removeItem('usuario');
+
+        this.router.navigate(['/login']);
+    }
 }
