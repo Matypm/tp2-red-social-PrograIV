@@ -2,9 +2,10 @@ import { Component, inject, input, output, signal } from '@angular/core';
 import { PublicacionInterface } from '../../../core/interfaces/publicaciones.interface';
 import { AuthService } from '../../../core/services/auth-service';
 import { PublicacionesService } from '../../../core/services/publicaciones-service';
+import { Modal } from '../../../shared/components/modal';
 
 @Component({
-  imports: [],
+  imports: [Modal],
   selector: 'app-publicacion-component',
   styleUrl: './publicacion-component.css',
   templateUrl: './publicacion-component.html',
@@ -18,8 +19,19 @@ export class PublicacionComponent {
   publicacion = input.required<PublicacionInterface>();
 
   publicacionActualizada = output<PublicacionInterface>();
+  publicacionEliminada = output<string>();
 
   procesandoLike = signal(false);
+  procesandoEliminacion = signal(false);
+  mostrarModalEliminar = signal(false);
+
+  abrirModalEliminar(): void {
+    this.mostrarModalEliminar.set(true);
+  }
+
+  cerrarModalEliminar(): void {
+    this.mostrarModalEliminar.set(false);
+  }
 
   darOSacarLike(): void {
 
@@ -117,6 +129,49 @@ export class PublicacionComponent {
         });
 
     }
+
+  }
+
+  eliminarPublicacion(): void {
+
+    // 1 Obtiene el usuario conectado
+    const usuario = this.authService.currentUser();
+
+    if (usuario === null) {
+      return;
+    }
+
+    const usuarioId = usuario._id;
+
+    // 2 Evita múltiples clics
+    if (this.procesandoEliminacion() === true) {
+      return;
+    }
+
+    // 3 Obtiene la publicación actual
+    const publicacion = this.publicacion();
+
+    // 4 Indica que esta procesando
+    this.procesandoEliminacion.set(true);
+
+    // 5 Envia la petición al backend
+    this.publicacionesService
+      .eliminarPublicacion(publicacion._id, usuarioId)
+      .subscribe({
+
+        next: () => {
+          this.publicacionEliminada.emit(publicacion._id);
+          this.mostrarModalEliminar.set(false);
+          this.procesandoEliminacion.set(false);
+        },
+
+        error: (error) => {
+          console.error('Error al eliminar la publicación:', error);
+          this.mostrarModalEliminar.set(false);
+          this.procesandoEliminacion.set(false);
+        }
+
+      });
 
   }
 

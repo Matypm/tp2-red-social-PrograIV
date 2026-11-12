@@ -39,6 +39,15 @@ export class AuthService {
 
     guardarUsuario(usuario: any) {
         this.currentUser.set(usuario);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+    }
+
+    cargarUsuario() {
+        const usuarioGuardado = localStorage.getItem('usuario');
+
+        if (usuarioGuardado !== null) {
+            this.currentUser.set(JSON.parse(usuarioGuardado));
+        }
     }
 
 

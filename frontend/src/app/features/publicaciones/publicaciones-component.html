@@ -24,17 +24,43 @@
   }
 
   @else {
+
+  <div class="controles-publicaciones">
+    <button type="button" (click)="cambiarOrden('fecha')" [class.activo]="orden() === 'fecha'">
+      Más recientes
+    </button>
+
+    <button type="button" (click)="cambiarOrden('likes')" [class.activo]="orden() === 'likes'">
+      Más Me gusta
+    </button>
+  </div>
+
+
   <section class="lista-publicaciones">
 
     @for (publicacion of publicaciones(); track publicacion._id) {
 
-    <app-publicacion-component 
-      [publicacion]="publicacion"
-      (publicacionActualizada)="actualizarPublicacion($event)"
-    />
+    <app-publicacion-component [publicacion]="publicacion" (publicacionActualizada)="actualizarPublicacion($event)"
+      (publicacionEliminada)="eliminarPublicacion($event)" />
 
     }
   </section>
   }
+
+  <div class="controles-paginacion">
+    <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 0 || cargando()">
+      Anterior
+    </button>
+
+    <span>
+      Página {{ paginaActual() + 1 }} de
+      {{ Math.ceil(totalPublicaciones() / limite) }}
+    </span>
+
+    <button type="button" (click)="paginaSiguiente()"
+      [disabled]="(paginaActual() + 1) * limite >= totalPublicaciones() || cargando()">
+      Siguiente
+    </button>
+  </div>
 
 </main>

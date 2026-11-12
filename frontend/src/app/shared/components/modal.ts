@@ -11,5 +11,8 @@ export class Modal {
   mensaje = input<string>('');
   tipo = input<'error' | 'exito' | 'info'>('info');
 
+  confirmacion = input<boolean>(false);
+
   cerrar = output<void>();
+  confirmar = output<void>(); 
 }

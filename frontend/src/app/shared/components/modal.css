@@ -103,6 +103,28 @@
   background: #34312E;
 }
 
+.modal-footer {
+  gap: 10px;
+}
+
+.btn-cancelar {
+  background: #e8e3dc;
+  color: #34312e;
+}
+
+.btn-cancelar:hover {
+  background: #d8d1c7;
+}
+
+.btn-confirmar {
+  background: #a83d3d;
+  color: white;
+}
+
+.btn-confirmar:hover {
+  background: #852d2d;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

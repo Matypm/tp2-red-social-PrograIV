@@ -4,10 +4,7 @@
         <div class="modal-header">
             <h2>{{ titulo() }}</h2>
 
-            <button 
-                type="button" 
-                class="modal-close"
-                (click)="cerrar.emit()">
+            <button type="button" class="modal-close" (click)="cerrar.emit()">
                 ×
             </button>
         </div>
@@ -27,12 +24,24 @@
         </div>
 
         <div class="modal-footer">
-            <button 
-                type="button" 
-                class="modal-btn"
-                (click)="cerrar.emit()">
+            @if (confirmacion()) {
+
+            <button type="button" class="modal-btn btn-cancelar" (click)="cerrar.emit()">
+                Cancelar
+            </button>
+
+            <button type="button" class="modal-btn btn-confirmar" (click)="confirmar.emit()">
+                Eliminar
+            </button>
+
+            }
+            @else {
+
+            <button type="button" class="modal-btn" (click)="cerrar.emit()">
                 Cerrar
             </button>
+
+            }
         </div>
 
     </div>
