@@ -53,11 +53,13 @@ export class AuthService {
     }
 
     cerrarSesion(): void {
+        this.limpiarSesion();
+        this.router.navigate(['/login']);
+    }
+
+    limpiarSesion(): void {
         this.currentUser.set(null);
         this.currentPerfil.set(null);
-
         localStorage.removeItem('usuario');
-
-        this.router.navigate(['/login']);
     }
 }

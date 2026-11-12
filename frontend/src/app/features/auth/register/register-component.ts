@@ -69,7 +69,7 @@ export class RegisterComponent {
     this.modalVisible.set(false);
 
     if (this.modalTipo() === 'exito') {
-      this.router.navigate(['/publicaciones']);
+      this.router.navigate(['/login']);
     }
   }
 
@@ -177,7 +177,9 @@ export class RegisterComponent {
         console.log('Registro exitoso!', response);
         this.cargando.set(false);
 
-        this.mostrarModal('¡Cuenta creada!', 'Su cuenta se creo correctamente.', 'exito');
+        this.authService.limpiarSesion();
+
+        this.mostrarModal('¡Cuenta creada!', 'Su cuenta se creo correctamente! Ahora iniciá sesión con tus nuevos datos.', 'exito');
 
       },
       error: (error) => {
