@@ -9,3 +9,56 @@
     Publicaciones
   </a>
 </header>
+<main class="contenedor-perfil">
+
+  @if (authService.currentUser(); as usuario) {
+  <section class="datos-perfil">
+
+    <img 
+      [src]="usuario.img_perfil || '/usuario.png'" 
+      [alt]="'Foto de perfil de ' + usuario.nombre" 
+      class="foto-perfil"
+    >
+
+    <div class="informacion-perfil">
+      <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+      <span>@{{ usuario.nombre_usuario }}</span>
+      <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+      <p><strong>Fecha de nacimiento:</strong> {{ usuario.fecha_nacimiento }}</p>
+      <p><strong>Descripción:</strong> {{ usuario.descripcion || 'Sin descripción' }}</p>
+      <p><strong>Tipo de cuenta:</strong> {{ usuario.perfil }}</p>
+    </div>
+
+  </section>
+  }
+  @else {
+  <p>No se pudo cargar la información del usuario.</p>
+  }
+
+  <section class="mis-publicaciones">
+  
+    <h2>Mis publicaciones</h2>
+  
+    @if (cargandoPublicaciones()) {
+      <p>Cargando tus publicaciones...</p>
+    }
+    @else if (errorPublicaciones()) {
+      <p>{{ errorPublicaciones() }}</p>
+    }
+    @else if (misPublicaciones().length === 0) {
+      <p>Todavía no realizaste publicaciones.</p>
+    }
+    @else {
+      <div class="lista-publicaciones">
+        @for (publicacion of misPublicaciones(); track publicacion._id) {
+          <app-publicacion-component
+            [publicacion]="publicacion"
+            (publicacionActualizada)="actualizarPublicacion($event)"
+            (publicacionEliminada)="quitarPublicacion($event)"
+          />
+        }
+      </div>
+    }
+  
+  </section>
+</main>

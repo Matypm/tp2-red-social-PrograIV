@@ -63,6 +63,128 @@
   transform: scale(1.03);
 }
  
+.contenedor-perfil {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 36px 16px 56px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+}
+ 
+/* Mensaje si no se pudo cargar el usuario */
+.contenedor-perfil > p {
+  margin: 48px 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+ 
+/* ---- Tarjeta de datos ---- */
+.datos-perfil {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+ 
+/* Orejitas de gato (mismo detalle que el login) */
+.datos-perfil::before,
+.datos-perfil::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-radius: 5px 0 0 0;
+  transform: rotate(45deg);
+}
+.datos-perfil::before { left: 32px; }
+.datos-perfil::after  { right: 32px; }
+ 
+.foto-perfil {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--accent-soft);
+  background: var(--accent-soft);
+}
+ 
+.informacion-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+ 
+.informacion-perfil h2 {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+ 
+.informacion-perfil span {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+ 
+.informacion-perfil p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+ 
+.informacion-perfil strong {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+ 
+/* ---- Mis publicaciones ---- */
+.mis-publicaciones {
+  margin-top: 40px;
+}
+ 
+.mis-publicaciones h2 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  border-bottom: 1px solid var(--border);
+}
+ 
+/* Grilla de 2 columnas, una publicación al lado de la otra */
+.lista-publicaciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start; /* cada card mantiene su altura, no se estiran todas igual */
+}
+ 
+/* Cargando / vacío / error */
+.mis-publicaciones > p {
+  margin: 36px 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+ 
+
+
 /* ---- Celulares ---- */
 @media (max-width: 520px) {
   .header {
@@ -80,4 +202,21 @@
     padding: 7px 12px;
     font-size: 0.8rem;
   }
+
+  .contenedor-perfil {
+    padding: 28px 12px 40px;
+  }
+  .datos-perfil {
+    flex-direction: column;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  .datos-perfil::before { left: 24px; }
+  .datos-perfil::after  { right: 24px; }
+  .lista-publicaciones {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  
 }
