@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UsuarioMongo } from '../usuarios/schemas/usuario.schema/usuario.schema.js';
 import { Model, mongo } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AutenticacionService {
@@ -14,14 +15,15 @@ export class AutenticacionService {
         @InjectModel(UsuarioMongo.name) private readonly usuarios: Model<UsuarioMongo>,
         private readonly usuarioService: UsuariosService,
         private readonly cloudinaryService: CloudinaryService,
-    ){}
+        private readonly jwtService: JwtService,
+    ) { }
 
-    async login(datos: LoginDto){
+    async login(datos: LoginDto) {
         // Buscamos al usuario
         const usuario = await this.usuarioService.buscarPorIdentificador(datos.identificador)
- 
+
         // Verifica q existe
-        if(!usuario){
+        if (!usuario) {
             throw new UnauthorizedException('Credenciales incorrectas!');
         }
 
@@ -35,13 +37,23 @@ export class AutenticacionService {
 
         // Destructuring de la contraseña y los demas datos publicos del user
         // para retornar los datos sin la contraseña
-        const { contrasenia, ...userSinContrasenia } = usuario.toObject(); 
+        const { contrasenia, ...userSinContrasenia } = usuario.toObject();
 
-        return userSinContrasenia;
+        // Genera el token JWT
+        const datosToken = await this.generarToken(
+            usuario.id,
+            usuario.correo,
+            usuario.perfil
+        );
+
+        return {
+            usuario: userSinContrasenia,
+            ...datosToken,
+        };
     }
 
-    async register(datos: RegisterDto, archivo?: Express.Multer.File){
-        if(datos.contrasenia !== datos.repetir_contrasenia){
+    async register(datos: RegisterDto, archivo?: Express.Multer.File) {
+        if (datos.contrasenia !== datos.repetir_contrasenia) {
             throw new BadRequestException('Las contraseñas no coinciden.')
         }
 
@@ -50,17 +62,17 @@ export class AutenticacionService {
             datos.nombre_usuario
         );
 
-        if(userExistente){
+        if (userExistente) {
             throw new ConflictException('El correo o nombre de usuario ya esta registrado. Intente con otros');
         }
 
         let imgSubida: { url: string, publicId: string } | undefined;
 
-        try{
+        try {
             let img_perfil = '';
             let img_perfil_public_id = '';
 
-            if(archivo){
+            if (archivo) {
                 const buffer = await this.cloudinaryService.normalizar(archivo);
 
                 imgSubida = await this.cloudinaryService.subir(buffer);
@@ -81,20 +93,41 @@ export class AutenticacionService {
                 img_perfil_public_id, // Identificador para poder eliminarla de Cloudinary.
             });
 
-            const {contrasenia, ...userSinContrasenia} = usuario.toObject();
+            const { contrasenia, ...userSinContrasenia } = usuario.toObject();
 
-            return userSinContrasenia;
+            const datosToken = await this.generarToken(
+                usuario.id as string,
+                usuario.correo,
+                usuario.perfil
+            );
 
-        } catch(error){
+            return {
+                usuario: userSinContrasenia,
+                ...datosToken
+            }
 
-            if(imgSubida) {
+        } catch (error) {
+
+            if (imgSubida) {
                 await this.cloudinaryService.eliminar(imgSubida.publicId);
             }
 
-            if(error instanceof mongo.MongoServerError && error.code === 11000){
+            if (error instanceof mongo.MongoServerError && error.code === 11000) {
                 throw new ConflictException('El email ya esta registrado.')
             }
             throw error;
         }
+    }
+
+    private async generarToken(id: string, correo: string, perfil: string) {
+        return {
+            access_token: await this.jwtService.signAsync({
+                sub: id,
+                correo,
+                perfil,
+            }),
+            token_type: 'Bearer',
+            expires_in: 900,
+        };
     }
 }
