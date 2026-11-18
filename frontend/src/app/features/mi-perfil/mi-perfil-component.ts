@@ -20,6 +20,10 @@ export class MiPerfilComponent implements OnInit {
   cargandoPublicaciones = signal(false);
   errorPublicaciones = signal('');
 
+  cerrarSesion(){
+    this.authService.cerrarSesion();
+  }
+
 
   ngOnInit(): void {
     this.cargarMisPublicaciones();

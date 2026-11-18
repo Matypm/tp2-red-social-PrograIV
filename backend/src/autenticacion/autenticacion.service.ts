@@ -18,6 +18,8 @@ export class AutenticacionService {
         private readonly jwtService: JwtService,
     ) { }
 
+    
+
     async login(datos: LoginDto) {
         // Buscamos al usuario
         const usuario = await this.usuarioService.buscarPorIdentificador(datos.identificador)
@@ -129,5 +131,17 @@ export class AutenticacionService {
             token_type: 'Bearer',
             expires_in: 900,
         };
+    }
+
+    async autorizar(id: string) {
+        const usuario = await this.usuarioService.buscarUserPorId(id);
+
+        if (!usuario) {
+            throw new UnauthorizedException('Usuario no encontrado!');
+        }
+
+        const { contrasenia, ...userSinContrasenia } = usuario.toObject();
+
+        return userSinContrasenia;
     }
 }

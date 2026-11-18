@@ -9,11 +9,9 @@ import { AuthService } from './core/services/auth-service';
   templateUrl: './app.html',
 })
 export class App {
-  private authService = inject(AuthService);
 
   protected readonly title = signal('frontend');
 
   constructor() {
-    this.authService.cargarUsuario();
   }
 }

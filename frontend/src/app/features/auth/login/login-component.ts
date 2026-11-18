@@ -76,7 +76,7 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso!', response);
 
-        this.authService.guardarUsuario(response);
+        this.authService.guardarUsuario(response.usuario);
 
         this.cargando.set(false);
 

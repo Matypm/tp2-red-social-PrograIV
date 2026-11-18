@@ -27,6 +27,10 @@ export class PublicacionesComponent implements OnInit {
   totalPublicaciones = signal(0);
   Math = Math;
 
+  cerrarSesion(){
+    this.authService.cerrarSesion();
+  }
+
   ngOnInit(): void {
     this.cargarPublicaciones();
   }

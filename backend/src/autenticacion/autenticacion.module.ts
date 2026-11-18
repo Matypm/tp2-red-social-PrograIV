@@ -8,21 +8,24 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module.js';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy.js';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-        UsuariosModule,
-        CloudinaryModule,
-        MongooseModule.forFeature([
-            { name: UsuarioMongo.name, schema: UsuarioSchema }
-        ]),
-        PassportModule,
-        JwtModule.register({
-          secret: process.env.JWT_SECRET,
-          signOptions: { expiresIn: '15m' }
-        })
-    ],
+    UsuariosModule,
+    CloudinaryModule,
+    MongooseModule.forFeature([
+      { name: UsuarioMongo.name, schema: UsuarioSchema }
+    ]),
+    PassportModule,
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_SECRET,
+        signOptions: { expiresIn: '15m' },
+      }),
+    }),
+  ],
   controllers: [AutenticacionController],
   providers: [AutenticacionService, JwtStrategy]
 })
-export class AutenticacionModule {}
+export class AutenticacionModule { }

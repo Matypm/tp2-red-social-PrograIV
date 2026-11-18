@@ -10,12 +10,23 @@ export type UsuarioJwt = {
     perfil: Perfil;
 };
 
+type RequestConCookies = Request & {
+    cookies?: {
+        access_token?: string;
+    };
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     
     constructor() {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: ExtractJwt.fromExtractors([
+                (request: Request): string | null => {
+                    const req = request as RequestConCookies;
+                    return req.cookies?.access_token ?? null;
+                }
+            ]),
             secretOrKey: process.env.JWT_SECRET!,
             ignoreExpiration: false,
             algorithms: ['HS256'],
