@@ -144,4 +144,20 @@ export class AutenticacionService {
 
         return userSinContrasenia;
     }
+
+    async refrescarToken(token: string) {
+        try {
+            // Verifica la firma y que el token no haya expirado.
+            const payload = await this.jwtService.verifyAsync(token);
+
+            // Genera nuevo token
+            return this.generarToken(
+                payload.sub,
+                payload.correo,
+                payload.perfil
+            );
+        } catch (error) {
+            throw new UnauthorizedException('Token expirado o inválido');
+        }
+    }
 }
