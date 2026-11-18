@@ -3,7 +3,7 @@ import { ApiService } from './api-service';
 import { LoginInterface } from '../interfaces/login.interface';
 import { RegisterInterface } from '../interfaces/register.interface';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
 import { RespuestaAuth } from '../interfaces/rta.auth.interface';
 
 @Injectable({
@@ -16,6 +16,9 @@ export class AuthService {
 
     currentUser = signal<any | null>(null);
     currentPerfil = signal<any | null>(null);
+
+    avisoDeSesion = signal(false);
+    private temporizadorAviso: ReturnType<typeof setTimeout> | null = null;
 
     signIn(datos: LoginInterface) {
         return this.apiService.post<RespuestaAuth>('login', datos);
@@ -43,6 +46,8 @@ export class AuthService {
     guardarUsuario(usuario: any) {
         this.currentUser.set(usuario);
         this.currentPerfil.set(usuario.perfil);
+
+        this.iniciarTemporizador();
     }
 
     cerrarSesion(): void {
@@ -62,6 +67,12 @@ export class AuthService {
     }
 
     limpiarSesion(): void {
+        if(this.temporizadorAviso){
+            clearTimeout(this.temporizadorAviso);
+            this.temporizadorAviso = null;
+        }
+
+        this.avisoDeSesion.set(false);
         this.currentUser.set(null);
         this.currentPerfil.set(null);
     }
@@ -81,5 +92,28 @@ export class AuthService {
             // Si falla la petición, limpia el estado y deja al usuario sin sesión
             this.limpiarSesion();
         }
+    }
+
+    private iniciarTemporizador(): void {
+
+        if(this.temporizadorAviso) {
+            clearTimeout(this.temporizadorAviso);
+        }
+
+        this.avisoDeSesion.set(false);
+
+        // Pasados los 10 mins muestra el aviso
+        this.temporizadorAviso = setTimeout(() => {
+            this.avisoDeSesion.set(true);
+        }, 10 * 60 * 1000);
+    }
+
+    extenderSesion(){
+        return this.apiService.post<{ token_type: string; expires_in: number }>(
+            'refrescar', {}
+        ).pipe( // permite agregar operaciones al flujo de respuesta del Observable
+            // tap ejecuta una acción cuando la petición responde correctamente, sin modificar la respuesta
+            tap(() => this.iniciarTemporizador())
+        );
     }
 }

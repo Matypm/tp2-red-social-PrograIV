@@ -13,6 +13,9 @@ export class Modal {
 
   confirmacion = input<boolean>(false);
 
+  txtCancelar = input<string>('Cancelar');
+  txtConfirmar = input<string>('Eliminar');
+
   cerrar = output<void>();
   confirmar = output<void>(); 
 }

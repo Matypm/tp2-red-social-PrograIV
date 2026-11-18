@@ -27,11 +27,11 @@
             @if (confirmacion()) {
 
             <button type="button" class="modal-btn btn-cancelar" (click)="cerrar.emit()">
-                Cancelar
+                {{ txtCancelar() }}
             </button>
 
             <button type="button" class="modal-btn btn-confirmar" (click)="confirmar.emit()">
-                Eliminar
+                {{ txtConfirmar() }}
             </button>
 
             }
