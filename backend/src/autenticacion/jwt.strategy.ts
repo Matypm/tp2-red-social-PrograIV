@@ -7,6 +7,7 @@ export type Perfil = 'usuario' | 'administrador';
 export type UsuarioJwt = {
     sub: string;
     correo: string;
+    nombre_usuario: string;
     perfil: Perfil;
 };
 
@@ -37,6 +38,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         return {
             sub: payload.sub,
             correo: payload.correo,
+            nombre_usuario: payload.nombre_usuario,
             perfil: payload.perfil,
         };
     }

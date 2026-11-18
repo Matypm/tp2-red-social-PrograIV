@@ -5,6 +5,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PublicacionMongo, PublicacionSchema } from './schemas/publicacion.schema.js';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module.js';
 import { UsuariosModule } from '../usuarios/usuarios.module.js';
+import { ComentarioMongo, ComentarioSchema } from './schemas/comentarios.schema.js';
+import { ComentariosService } from './comentarios.service.js';
+import { ComentariosController } from './comentarios.controller.js';
 
 @Module({
   imports: [
@@ -12,13 +15,17 @@ import { UsuariosModule } from '../usuarios/usuarios.module.js';
       {
         name: PublicacionMongo.name,
         schema: PublicacionSchema
+      },
+      {
+        name: ComentarioMongo.name,
+        schema: ComentarioSchema
       }
     ]),
     CloudinaryModule,
     UsuariosModule,
   ],
-  controllers: [PublicacionesController],
-  providers: [PublicacionesService],
+  controllers: [PublicacionesController, ComentariosController],
+  providers: [PublicacionesService, ComentariosService],
   exports: [PublicacionesService]
 })
 export class PublicacionesModule { }
