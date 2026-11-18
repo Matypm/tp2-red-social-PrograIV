@@ -45,6 +45,7 @@ export class AutenticacionService {
         const datosToken = await this.generarToken(
             usuario.id,
             usuario.correo,
+            usuario.nombre_usuario,
             usuario.perfil
         );
 
@@ -100,6 +101,7 @@ export class AutenticacionService {
             const datosToken = await this.generarToken(
                 usuario.id as string,
                 usuario.correo,
+                usuario.nombre_usuario,
                 usuario.perfil
             );
 
@@ -121,11 +123,12 @@ export class AutenticacionService {
         }
     }
 
-    private async generarToken(id: string, correo: string, perfil: string) {
+    private async generarToken(id: string, correo: string, nombre_usuario: string, perfil: string) {
         return {
             access_token: await this.jwtService.signAsync({
                 sub: id,
                 correo,
+                nombre_usuario,
                 perfil,
             }),
             token_type: 'Bearer',
@@ -154,6 +157,7 @@ export class AutenticacionService {
             return this.generarToken(
                 payload.sub,
                 payload.correo,
+                payload.nombre_usuario,
                 payload.perfil
             );
         } catch (error) {
