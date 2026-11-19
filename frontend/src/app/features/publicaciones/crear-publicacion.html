@@ -1,0 +1,112 @@
+<header class="header">
+  <a routerLink="/publicaciones" class="logo">
+    <img src="/nexocat.png" alt="NexoCat">
+  </a>
+
+  <h1>CREAR PUBLICACIÓN</h1>
+
+  <div class="acciones-header">
+    <button type="button" class="btn-perfil" (click)="volver()">
+      Volver
+    </button>
+  </div>
+</header>
+
+<main class="contenedor-crear">
+  <form [formGroup]="publicacionForm" (ngSubmit)="onSubmit()">
+
+    <div class="encabezado-formulario">
+      <h2>Nueva publicación</h2>
+      <p>Compartí algo con la comunidad.</p>
+    </div>
+
+    <!-- Título -->
+    <div class="campo">
+      <label for="titulo">Título</label>
+
+      <input
+        id="titulo"
+        type="text"
+        formControlName="titulo"
+        placeholder="Escribí un título..."
+        maxlength="100"
+      >
+
+      @if (f.titulo.touched && f.titulo.hasError('required')) {
+        <span class="mensaje-error">El título es obligatorio.</span>
+      }
+
+      @if (f.titulo.touched && f.titulo.hasError('maxlength')) {
+        <span class="mensaje-error">El título no puede superar los 100 caracteres.</span>
+      }
+
+      <span class="contador">
+        {{ f.titulo.value?.length || 0 }}/100
+      </span>
+    </div>
+
+    <!-- Descripción -->
+    <div class="campo">
+      <label for="descripcion">Descripción</label>
+
+      <textarea
+        id="descripcion"
+        formControlName="descripcion"
+        placeholder="¿Qué querés compartir?"
+        maxlength="2000"
+        rows="6"
+      ></textarea>
+
+      @if (f.descripcion.touched && f.descripcion.hasError('required')) {
+        <span class="mensaje-error">La descripción es obligatoria.</span>
+      }
+
+      @if (f.descripcion.touched && f.descripcion.hasError('maxlength')) {
+        <span class="mensaje-error">La descripción no puede superar los 2000 caracteres.</span>
+      }
+
+      <span class="contador">
+        {{ f.descripcion.value?.length || 0 }}/2000
+      </span>
+    </div>
+
+    <!-- Imagen -->
+    <div class="campo">
+      <label for="imagen">Imagen (opcional)</label>
+
+      <input
+        id="imagen"
+        type="file"
+        accept="image/*"
+        (change)="seleccionarImagen($event)"
+      >
+
+      @if (imagenSeleccionada) {
+        <p class="archivo-seleccionado">
+          {{ imagenSeleccionada.name }}
+        </p>
+      }
+
+      @if (errorImagen()) {
+        <span class="mensaje-error">{{ errorImagen() }}</span>
+      }
+
+      <span class="ayuda">Tamaño máximo: 5 MB.</span>
+    </div>
+
+    @if (errorGeneral()) {
+      <p class="mensaje-error">{{ errorGeneral() }}</p>
+    }
+
+    <div class="acciones-formulario">
+      <button type="button" class="btn-cancelar" (click)="volver()">
+        Cancelar
+      </button>
+
+    <button type="submit" class="btn-publicar" [disabled]="publicando()">
+        {{ publicando() ? 'Publicando...' : 'Publicar' }}
+    </button>
+    </div>
+
+  </form>
+</main>

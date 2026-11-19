@@ -1,0 +1,334 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* logo | título | botones → título siempre centrado */
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: rgba(251, 249, 245, 0.88);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.logo {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.logo img {
+  display: block;
+  height: 42px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-align: center;
+}
+
+.acciones-header {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-perfil {
+  white-space: nowrap;
+  padding: 9px 18px;
+  font-family: inherit;       /* este botón es un <button>, no un <a> */
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+}
+
+.btn-perfil:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+/* ================= FORMULARIO ================= */
+
+.contenedor-crear {
+  width: 100%;
+  max-width: 640px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 40px 16px 56px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+}
+
+/* El formulario es la card */
+.contenedor-crear form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+/* Orejitas de gato (mismo detalle que el login y el perfil) */
+.contenedor-crear form::before,
+.contenedor-crear form::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-radius: 5px 0 0 0;
+  transform: rotate(45deg);
+}
+.contenedor-crear form::before { left: 32px; }
+.contenedor-crear form::after  { right: 32px; }
+
+.encabezado-formulario h2 {
+  margin: 0 0 4px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.encabezado-formulario p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+/* ---- Campos ---- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.campo input[type='text'],
+.campo textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.campo textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: #A8A298;
+}
+
+.campo input[type='text']:focus,
+.campo textarea:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Contador de caracteres y texto de ayuda */
+.contador {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.ayuda {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ---- Input de archivo ---- */
+.campo input[type='file'] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.campo input[type='file']::file-selector-button {
+  margin-right: 12px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.campo input[type='file']::file-selector-button:hover {
+  background: var(--accent);
+}
+
+.archivo-seleccionado {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  color: var(--text);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Errores ---- */
+/* Error de un campo: texto chico debajo del input */
+.campo .mensaje-error {
+  font-size: 0.8rem;
+  color: var(--error-text);
+}
+
+/* Error general del formulario: franja rojiza suave */
+.contenedor-crear form > .mensaje-error {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  color: var(--error-text);
+  background: var(--error-bg);
+  border-radius: 12px;
+}
+
+/* ---- Botones ---- */
+.acciones-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.btn-cancelar,
+.btn-publicar {
+  box-sizing: border-box;
+  height: 42px;
+  padding: 0 24px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              transform 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-cancelar {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+}
+
+.btn-cancelar:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.btn-publicar {
+  color: var(--surface);
+  background: var(--text);
+  border: 1px solid var(--text);
+}
+
+.btn-publicar:hover:not(:disabled) {
+  background: #34312E;
+  transform: scale(1.03);
+}
+
+.btn-publicar:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-cancelar:focus-visible,
+.btn-publicar:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ================= CELULARES ================= */
+
+@media (max-width: 520px) {
+  .header {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .header h1 {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+
+  .logo img {
+    height: 34px;
+  }
+
+  .btn-perfil {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+  }
+
+  .contenedor-crear {
+    padding: 32px 12px 40px;
+  }
+
+  .contenedor-crear form {
+    gap: 18px;
+    padding: 24px 18px;
+  }
+
+  .contenedor-crear form::before { left: 24px; }
+  .contenedor-crear form::after  { right: 24px; }
+
+  .acciones-formulario button {
+    flex: 1;
+  }
+}

@@ -14,7 +14,7 @@
     </button>
   </div>
 </header>
-<main class="contenedor-publicaciones">
+<!-- <main class="contenedor-publicaciones">
 
   @if (cargando()) {
   <p class="mensaje-estado">Cargando publicaciones...</p>
@@ -73,6 +73,76 @@
   @if (publicacionSeleccionada()) {
   <app-detalle-publicacion 
     [publicacion]="publicacionSeleccionada()!"
+    (cerrar)="publicacionSeleccionada.set(null)" />
+  }
+
+</main> -->
+<main class="layout-publicaciones">
+
+  <section class="contenedor-publicaciones">
+
+    @if (cargando()) {
+    <p class="mensaje-estado">Cargando publicaciones...</p>
+    }
+
+    @else if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+    }
+
+    @else if (publicaciones().length === 0) {
+    <p class="mensaje-estado">Todavía no hay publicaciones.</p>
+    }
+
+    @else {
+    <div class="controles-publicaciones">
+      <button type="button" (click)="cambiarOrden('fecha')" [class.activo]="orden() === 'fecha'">
+        Más recientes
+      </button>
+
+      <button type="button" (click)="cambiarOrden('likes')" [class.activo]="orden() === 'likes'">
+        Más Me gusta
+      </button>
+    </div>
+
+    <section class="lista-publicaciones">
+      @for (publicacion of publicaciones(); track publicacion._id) {
+      <app-publicacion-component 
+        [publicacion]="publicacion" 
+        (publicacionActualizada)="actualizarPublicacion($event)"
+        (publicacionEliminada)="eliminarPublicacion($event)" (publicacionSeleccionada)="abrirDetalle($event)" />
+      }
+    </section>
+    }
+
+    <div class="controles-paginacion">
+      <button type="button" (click)="paginaAnterior()" [disabled]="paginaActual() === 0 || cargando()">
+        Anterior
+      </button>
+
+      <span>
+        Página {{ paginaActual() + 1 }} de
+        {{ Math.ceil(totalPublicaciones() / limite) }}
+      </span>
+
+      <button type="button" (click)="paginaSiguiente()"
+        [disabled]="(paginaActual() + 1) * limite >= totalPublicaciones() || cargando()">
+        Siguiente
+      </button>
+    </div>
+
+  </section>
+
+  <aside class="barra-lateral">
+
+    <a routerLink="/publicaciones/crear" class="boton-crear">
+      <span class="icono-mas">+</span>
+    </a>
+
+  </aside>
+
+  @if (publicacionSeleccionada()) {
+  <app-detalle-publicacion 
+    [publicacion]="publicacionSeleccionada()!" 
     (cerrar)="publicacionSeleccionada.set(null)" />
   }
 
