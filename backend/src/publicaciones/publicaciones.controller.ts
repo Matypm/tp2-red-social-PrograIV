@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PublicacionesService } from './publicaciones.service.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
 import { ConsultarPublicacionesDto } from './dto/consultar-publicaciones.dto.js';
+import { JwtAuthGuard } from '../autenticacion/jwt-auth-guard.js';
+import { UsuarioActual } from '../common/decorators/usuario-actual.decorator.js';
 
 @Controller('publicaciones')
 export class PublicacionesController {
@@ -11,6 +13,7 @@ export class PublicacionesController {
     ) {}
 
     @Post()
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('imagen', {
             limits: {
                 fileSize: 5 * 1024 * 1024,
@@ -18,10 +21,11 @@ export class PublicacionesController {
         }),
     )
     crear(
-        @Body() datos: CrearPublicacionDto, 
+        @Body() datos: CrearPublicacionDto,
+        @UsuarioActual('sub') usuarioId: string,
         @UploadedFile() archivo?: Express.Multer.File
     ){
-        return this.publicacionesService.crear(datos, archivo);
+        return this.publicacionesService.crear(datos, usuarioId, archivo);
     }
 
     @Get()

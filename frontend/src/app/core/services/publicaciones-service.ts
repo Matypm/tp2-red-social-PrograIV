@@ -30,5 +30,18 @@ export class PublicacionesService {
         (`publicaciones/${publicacionId}`, { usuarioId });
     }
 
+    crear(titulo: string, descripcion: string, imagen?: File) {
+        const formData = new FormData();
+
+        formData.append('titulo', titulo);
+        formData.append('descripcion', descripcion);
+
+        if (imagen) {
+            formData.append('imagen', imagen);
+        }
+
+        return this.apiService.post('publicaciones', formData);
+    }
+
 
 }

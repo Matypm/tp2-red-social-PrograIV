@@ -18,10 +18,10 @@ export class PublicacionesService {
         private readonly usuariosService: UsuariosService,
     ) { }
 
-    async crear(datos: CrearPublicacionDto, archivo?: Express.Multer.File) {
+    async crear(datos: CrearPublicacionDto, usuarioId: string,archivo?: Express.Multer.File) {
 
         // Compruebo que el usuario exista.
-        const usuario = await this.usuariosService.buscarUserPorId(datos.usuarioId,);
+        const usuario = await this.usuariosService.buscarUserPorId(usuarioId);
 
         if (!usuario) {
             throw new NotFoundException('El usuario no existe.');

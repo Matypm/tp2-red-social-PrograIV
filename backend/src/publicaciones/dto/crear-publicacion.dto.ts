@@ -1,13 +1,10 @@
 import {
-    IsMongoId,
     IsNotEmpty,
     IsString,
     MaxLength,
 } from 'class-validator';
 
 export class CrearPublicacionDto {
-    @IsMongoId()
-    usuarioId!: string;
 
     @IsString()
     @IsNotEmpty()
