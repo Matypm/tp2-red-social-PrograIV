@@ -2,6 +2,7 @@ import { Component, inject, input, output, signal } from '@angular/core';
 import { PublicacionInterface } from '../../../core/interfaces/publicaciones.interface';
 import { ComentariosService } from '../../../core/services/comentarios-service';
 import { ComentarioInterface } from '../../../core/interfaces/comentario.interface';
+import { AuthService } from '../../../core/services/auth-service';
 
 @Component({
   imports: [],
@@ -12,6 +13,7 @@ import { ComentarioInterface } from '../../../core/interfaces/comentario.interfa
 export class DetallePublicacion {
 
   private comentariosService = inject(ComentariosService);
+  private authService = inject(AuthService);
 
   publicacion = input.required<PublicacionInterface>();
   
@@ -28,6 +30,9 @@ export class DetallePublicacion {
   nuevoComentario = signal('');
   publicandoComentario = signal(false);
   errorPublicar = signal('');
+
+  comentarioEditando = signal<string | null>(null);
+  mensajeEdicion = signal('');
 
   ngOnInit(): void {
     this.cargarComentarios();
@@ -97,8 +102,6 @@ export class DetallePublicacion {
 
       next: () => {
         this.nuevoComentario.set('');
-
-        // Vuelve a consultar la primera página para incluir el nuevo comentario
         this.paginaActual.set(1);
 
         this.comentariosService.obtenerComentarios(
@@ -112,13 +115,13 @@ export class DetallePublicacion {
             this.hayMasComentarios.set(respuesta.length === this.limiteComentarios);
             this.publicandoComentario.set(false);
           },
-
           error: (error) => {
             console.error('Error al actualizar los comentarios:', error);
             this.errorPublicar.set('El comentario se publicó, pero no se pudo actualizar la lista.');
             this.publicandoComentario.set(false);
           }
         });
+
       },
 
       error: (error) => {
@@ -126,7 +129,58 @@ export class DetallePublicacion {
         this.errorPublicar.set('No se pudo publicar el comentario.');
         this.publicandoComentario.set(false);
       }
+
     });
   }
+
+  // comprueba si el comentario pertenece al usuario autenticado
+  esComentarioPropio(comentario: ComentarioInterface): boolean {
+    return this.authService.currentUser()?._id === comentario.usuario._id;
+  }
+
+  // guarda el ID del comentario que queremos editar y carga su mensaje actual
+  iniciarEdicion(comentario: ComentarioInterface): void {
+    this.comentarioEditando.set(comentario._id);
+    this.mensajeEdicion.set(comentario.mensaje);
+  }
+
+  // sale del modo edición sin guardar cambios
+  cancelarEdicion(): void {
+    this.comentarioEditando.set(null);
+    this.mensajeEdicion.set('');
+  }
+
+  guardarEdicion(comentarioId: string): void {
+    const mensaje = this.mensajeEdicion().trim();
+
+    if (!mensaje) {
+      return;
+    }
+
+    this.comentariosService.editarComentario(
+      comentarioId,
+      mensaje
+    ).subscribe({
+
+      next: (respuesta) => {
+        this.comentarios.update(comentariosActuales =>
+          comentariosActuales.map(comentario =>
+            // aca con el array de coments q tengo comparo el id del coment
+            // q esta en el array con la rta del next, si es el mismo le doy rta
+            // si no le doy comentario (caso false)
+            comentario._id === respuesta._id
+              ? respuesta
+              : comentario
+          )
+        );
+
+        this.cancelarEdicion();
+      },
+      error: (error) => {
+        console.error('Error al editar comentario:', error);
+      }
+    });
+  }
+
 
 }

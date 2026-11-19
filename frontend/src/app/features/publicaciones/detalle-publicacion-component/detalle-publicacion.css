@@ -356,6 +356,102 @@
   border-radius: 10px;
 }
 
+/* Botón "Editar": discreto, tipo enlace */
+.btn-editar-comentario {
+  display: inline-block;
+  margin: 4px 10px 0 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.btn-editar-comentario:hover {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+/* Textarea mientras se edita */
+.textarea-edicion {
+  display: block;
+  width: 100%;
+  min-height: 64px;
+  margin-top: 6px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.textarea-edicion:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Botones Guardar / Cancelar */
+.acciones-edicion {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.acciones-edicion button {
+  box-sizing: border-box;
+  height: 30px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Guardar: botón principal */
+.acciones-edicion button:first-child {
+  color: var(--surface);
+  background: var(--text);
+  border: 1px solid var(--text);
+}
+
+.acciones-edicion button:first-child:hover:not(:disabled) {
+  background: #34312E;
+  transform: scale(1.04);
+}
+
+.acciones-edicion button:first-child:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Cancelar: botón secundario */
+.acciones-edicion button:last-child {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+}
+
+.acciones-edicion button:last-child:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
 /* ---- Animaciones suaves (gato perezoso) ---- */
 @keyframes aparecer-fondo {
   from { opacity: 0; }
