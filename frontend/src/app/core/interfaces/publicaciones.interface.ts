@@ -5,7 +5,7 @@ export interface PublicacionInterface {
     descripcion: string;
     imagen: string;
     likes: string[];
-    cantidad_likes: Number;
+    cantidad_likes: number;
     fecha_creacion: Date;
     eliminada: boolean;
     autor: {

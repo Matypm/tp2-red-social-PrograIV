@@ -4,9 +4,10 @@ import { PublicacionesService } from '../../core/services/publicaciones-service'
 import { PublicacionInterface } from '../../core/interfaces/publicaciones.interface';
 import { PublicacionComponent } from './publicacion/publicacion-component';
 import { AuthService } from '../../core/services/auth-service';
+import { DetallePublicacion } from './detalle-publicacion-component/detalle-publicacion';
 
 @Component({
-  imports: [RouterLink, PublicacionComponent],
+  imports: [RouterLink, PublicacionComponent, DetallePublicacion],
   selector: 'app-publicaciones-component',
   styleUrl: './publicaciones-component.css',
   templateUrl: './publicaciones-component.html',
@@ -27,7 +28,13 @@ export class PublicacionesComponent implements OnInit {
   totalPublicaciones = signal(0);
   Math = Math;
 
-  cerrarSesion(){
+  publicacionSeleccionada = signal<PublicacionInterface | null>(null);
+
+  abrirDetalle(publicacion: PublicacionInterface): void {
+    this.publicacionSeleccionada.set(publicacion);
+  }
+
+  cerrarSesion() {
     this.authService.cerrarSesion();
   }
 

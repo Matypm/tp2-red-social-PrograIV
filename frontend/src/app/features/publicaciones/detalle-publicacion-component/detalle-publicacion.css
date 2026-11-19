@@ -1,0 +1,415 @@
+/* ---- Fondo oscurecido ---- */
+.fondo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(28, 27, 26, 0.55);
+  backdrop-filter: blur(4px);
+  font-family: 'Inter', system-ui, sans-serif;
+  animation: aparecer-fondo 0.3s ease;
+}
+
+/* ---- Ventana ---- */
+.modal-detalle {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  color: var(--text);
+  animation: aparecer-modal 0.35s ease;
+}
+
+/* ---- Botón de cerrar ---- */
+.btn-cerrar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+}
+
+.btn-cerrar:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+
+.btn-cerrar:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- Layout: imagen | información ---- */
+.contenido-modal {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  height: 80vh;
+  max-height: 680px;
+  min-height: 420px;
+}
+
+/* ---- Imagen (izquierda) ---- */
+.imagen-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+}
+
+.imagen-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sin-imagen {
+  padding: 24px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+/* ---- Información (derecha) ---- */
+.informacion-publicacion {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Autor */
+.encabezado-detalle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 60px 16px 20px; /* espacio a la derecha para el botón de cerrar */
+  border-bottom: 1px solid var(--border);
+}
+
+.encabezado-detalle img {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--accent-soft);
+  background: var(--accent-soft);
+}
+
+.encabezado-detalle div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.encabezado-detalle h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.encabezado-detalle span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Título y descripción */
+.datos-publicacion {
+  padding: 18px 20px;
+  max-height: 40%;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.datos-publicacion h2 {
+  margin: 0 0 8px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.datos-publicacion p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Comentarios (con scroll propio) ---- */
+.seccion-comentarios {
+  flex: 1;
+  min-height: 0;
+  padding: 18px 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.seccion-comentarios h3 {
+  margin: 0 0 14px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.comentarios-vacio {
+  margin: 28px 0;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Lista */
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comentario {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comentario img {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--accent-soft);
+  background: var(--accent-soft);
+}
+
+.contenido-comentario {
+  flex: 1;
+  min-width: 0;
+}
+
+.encabezado-comentario {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.encabezado-comentario strong {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.encabezado-comentario span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.contenido-comentario p {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.comentario-modificado {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* "Ver más comentarios" y "Reintentar" */
+.btn-ver-mas,
+.btn-reintentar {
+  display: block;
+  margin: 16px auto 0;
+  padding: 8px 18px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+}
+
+.btn-ver-mas:hover:not(:disabled),
+.btn-reintentar:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+.btn-ver-mas:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* ---- Escribir comentario (fijo abajo, input bajito) ---- */
+.formulario-comentario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.formulario-comentario textarea {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;    /* el alto incluye padding y borde */
+  height: auto;
+  min-height: 38px;          /* alto total mínimo del input */
+  max-height: 120px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-input);
+  border-radius: 999px;
+  outline: none;
+  resize: none;
+  field-sizing: content;     /* crece solo si escribe varias líneas */
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.formulario-comentario textarea::placeholder {
+  color: #A8A298;
+}
+
+.formulario-comentario textarea:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.btn-publicar-comentario {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 38px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--surface);
+  background: var(--text);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-publicar-comentario:hover:not(:disabled) {
+  background: #34312E;
+  transform: scale(1.04);
+}
+
+.btn-publicar-comentario:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Error: ocupa toda la fila, arriba del input */
+.formulario-comentario .mensaje-error {
+  order: -1;
+  flex: 1 0 100%;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: var(--error-text);
+  background: var(--error-bg);
+  border-radius: 10px;
+}
+
+/* ---- Animaciones suaves (gato perezoso) ---- */
+@keyframes aparecer-fondo {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes aparecer-modal {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- Celulares: imagen arriba, info abajo ---- */
+@media (max-width: 760px) {
+  .fondo-modal {
+    padding: 12px;
+  }
+
+  .modal-detalle {
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  .contenido-modal {
+    display: block;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+  }
+
+  .imagen-container {
+    max-height: 45vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .imagen-container img {
+    max-height: 45vh;
+  }
+
+  .sin-imagen {
+    padding: 28px 24px;
+  }
+
+  .datos-publicacion {
+    max-height: none;
+  }
+
+  .seccion-comentarios {
+    overflow-y: visible;
+  }
+
+  .formulario-comentario {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+  }
+}

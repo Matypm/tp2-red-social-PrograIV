@@ -45,8 +45,10 @@
 
     @for (publicacion of publicaciones(); track publicacion._id) {
 
-    <app-publicacion-component [publicacion]="publicacion" (publicacionActualizada)="actualizarPublicacion($event)"
-      (publicacionEliminada)="eliminarPublicacion($event)" />
+    <app-publicacion-component 
+      [publicacion]="publicacion" 
+      (publicacionActualizada)="actualizarPublicacion($event)"
+      (publicacionEliminada)="eliminarPublicacion($event)" (publicacionSeleccionada)="abrirDetalle($event)" />
 
     }
   </section>
@@ -67,5 +69,11 @@
       Siguiente
     </button>
   </div>
+
+  @if (publicacionSeleccionada()) {
+  <app-detalle-publicacion 
+    [publicacion]="publicacionSeleccionada()!"
+    (cerrar)="publicacionSeleccionada.set(null)" />
+  }
 
 </main>

@@ -1,0 +1,257 @@
+<!-- <div class="fondo-modal" (click)="cerrar.emit()">
+
+    <section class="modal-detalle" (click)="$event.stopPropagation()">
+
+        <button
+            type="button"
+            class="btn-cerrar"
+            (click)="cerrar.emit()">
+            ×
+        </button>
+
+        <div class="contenido-modal">
+
+            <div class="imagen-container">
+
+                @if (publicacion().imagen) {
+                    <img
+                        [src]="publicacion().imagen"
+                        [alt]="'Imagen de ' + publicacion().titulo">
+                }
+                @else {
+                    <div class="sin-imagen">
+                        Esta publicación no tiene imagen.
+                    </div>
+                }
+
+            </div>
+
+            <div class="informacion-publicacion">
+
+                <header class="encabezado-detalle">
+                    <img
+                        [src]="publicacion().autor.img_perfil || '/usuario.png'"
+                        [alt]="'Foto de ' + publicacion().autor.nombre">
+
+                    <div>
+                        <h3>{{ publicacion().autor.nombre }} {{ publicacion().autor.apellido }}</h3>
+                        <span>@{{ publicacion().autor.nombre_usuario }}</span>
+                    </div>
+                </header>
+
+                <div class="datos-publicacion">
+                    <h2>{{ publicacion().titulo }}</h2>
+                    <p>{{ publicacion().descripcion }}</p>
+                </div>
+
+                <div class="seccion-comentarios">
+                    <h3>Comentarios</h3>
+                
+                    @if (cargandoComentarios() && comentarios().length === 0) {
+                    <p class="comentarios-vacio">Cargando comentarios...</p>
+                    }
+                    @else if (errorComentarios()) {
+                    <p class="comentarios-vacio">{{ errorComentarios() }}</p>
+                    <button type="button" (click)="cargarComentarios()">Reintentar</button>
+                    }
+                    @else if (comentarios().length === 0) {
+                    <p class="comentarios-vacio">Todavía no hay comentarios. Sé el primero!</p>
+                    }
+                    @else {
+                    <div class="lista-comentarios">
+                        @for (comentario of comentarios(); track comentario._id) {
+                        <div class="comentario">
+                            <img [src]="comentario.usuario.img_perfil || '/usuario.png'" [alt]="'Foto de ' + comentario.usuario.nombre">
+                
+                            <div class="contenido-comentario">
+                                <div class="encabezado-comentario">
+                                    <strong>{{ comentario.usuario.nombre }}</strong>
+                                    <span>@{{ comentario.usuario.nombre_usuario }}</span>
+                                </div>
+                
+                                <p>{{ comentario.mensaje }}</p>
+                
+                                @if (comentario.modificado) {
+                                <small class="comentario-modificado">Editado</small>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                
+                    @if (hayMasComentarios()) {
+                        <button type="button" class="btn-ver-mas" (click)="cargarMasComentarios()" [disabled]="cargandoComentarios()">
+                    
+                            @if (cargandoComentarios()) {
+                            Cargando...
+                            } @else {
+                            Ver más comentarios
+                            }
+                        </button>
+                        }
+                    }
+                
+                    <div class="formulario-comentario">
+                        <textarea placeholder="Escribí un comentario..." maxlength="500" rows="3" [value]="nuevoComentario()"
+                            (input)="nuevoComentario.set($any($event.target).value)">
+                    </textarea>
+                
+                        @if (errorPublicar()) {
+                        <p class="mensaje-error">{{ errorPublicar() }}</p>
+                        }
+                
+                        <button type="button" class="btn-publicar-comentario" (click)="publicarComentario()"
+                            [disabled]="!nuevoComentario().trim() || publicandoComentario()">
+                
+                            @if (publicandoComentario()) {
+                                Publicando...
+                            } @else {
+                                Publicar
+                            }
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </section>
+
+</div> -->
+<div class="fondo-modal" (click)="cerrar.emit()">
+
+    <section class="modal-detalle" (click)="$event.stopPropagation()">
+
+        <button
+            type="button"
+            class="btn-cerrar"
+            (click)="cerrar.emit()">
+            ×
+        </button>
+
+        <div class="contenido-modal">
+
+            <div class="imagen-container">
+
+                @if (publicacion().imagen) {
+                    <img
+                        [src]="publicacion().imagen"
+                        [alt]="'Imagen de ' + publicacion().titulo">
+                }
+                @else {
+                    <div class="sin-imagen">
+                        Esta publicación no tiene imagen.
+                    </div>
+                }
+
+            </div>
+
+            <div class="informacion-publicacion">
+
+                <header class="encabezado-detalle">
+                    <img
+                        [src]="publicacion().autor.img_perfil || '/usuario.png'"
+                        [alt]="'Foto de ' + publicacion().autor.nombre">
+
+                    <div>
+                        <h3>{{ publicacion().autor.nombre }} {{ publicacion().autor.apellido }}</h3>
+                        <span>@{{ publicacion().autor.nombre_usuario }}</span>
+                    </div>
+                </header>
+
+                <div class="datos-publicacion">
+                    <h2>{{ publicacion().titulo }}</h2>
+                    <p>{{ publicacion().descripcion }}</p>
+                </div>
+
+                <div class="seccion-comentarios">
+                    <h3>Comentarios</h3>
+
+                    @if (cargandoComentarios() && comentarios().length === 0) {
+                        <p class="comentarios-vacio">Cargando comentarios...</p>
+                    }
+                    @else if (errorComentarios()) {
+                        <p class="comentarios-vacio">{{ errorComentarios() }}</p>
+                        <button type="button" class="btn-reintentar" (click)="cargarComentarios()">
+                            Reintentar
+                        </button>
+                    }
+                    @else if (comentarios().length === 0) {
+                        <p class="comentarios-vacio">Todavía no hay comentarios. Sé el primero!</p>
+                    }
+                    @else {
+                        <div class="lista-comentarios">
+                            @for (comentario of comentarios(); track comentario._id) {
+                                <div class="comentario">
+                                    <img
+                                        [src]="comentario.usuario.img_perfil || '/usuario.png'"
+                                        [alt]="'Foto de ' + comentario.usuario.nombre">
+
+                                    <div class="contenido-comentario">
+                                        <div class="encabezado-comentario">
+                                            <strong>{{ comentario.usuario.nombre }}</strong>
+                                            <span>@{{ comentario.usuario.nombre_usuario }}</span>
+                                        </div>
+
+                                        <p>{{ comentario.mensaje }}</p>
+
+                                        @if (comentario.modificado) {
+                                            <small class="comentario-modificado">Editado</small>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (hayMasComentarios()) {
+                            <button
+                                type="button"
+                                class="btn-ver-mas"
+                                (click)="cargarMasComentarios()"
+                                [disabled]="cargandoComentarios()">
+
+                                @if (cargandoComentarios()) {
+                                    Cargando...
+                                } @else {
+                                    Ver más comentarios
+                                }
+                            </button>
+                        }
+                    }
+                </div>
+
+                <div class="formulario-comentario">
+
+                    @if (errorPublicar()) {
+                        <p class="mensaje-error">{{ errorPublicar() }}</p>
+                    }
+
+                    <textarea
+                        placeholder="Escribí un comentario..."
+                        maxlength="500"
+                        rows="1"
+                        [value]="nuevoComentario()"
+                        (input)="nuevoComentario.set($any($event.target).value)"></textarea>
+
+                    <button
+                        type="button"
+                        class="btn-publicar-comentario"
+                        (click)="publicarComentario()"
+                        [disabled]="!nuevoComentario().trim() || publicandoComentario()">
+
+                        @if (publicandoComentario()) {
+                            Publicando...
+                        } @else {
+                            Publicar
+                        }
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

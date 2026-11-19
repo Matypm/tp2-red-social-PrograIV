@@ -27,14 +27,9 @@
     </div>
 
     @if (mostrarModalEliminar()) {
-        <app-modal 
-            titulo="Eliminar publicación"
-            mensaje="¿Estás seguro de que querés eliminar esta publicación? Esta acción no se puede deshacer." 
-            tipo="error"
-            [confirmacion]="true" 
-            (cerrar)="cerrarModalEliminar()" 
-            (confirmar)="eliminarPublicacion()" 
-        />
+    <app-modal titulo="Eliminar publicación"
+        mensaje="¿Estás seguro de que querés eliminar esta publicación? Esta acción no se puede deshacer." tipo="error"
+        [confirmacion]="true" (cerrar)="cerrarModalEliminar()" (confirmar)="eliminarPublicacion()" />
     }
 
     <footer class="acciones-publicacion">
@@ -43,16 +38,20 @@
             [class.like-activo]="publicacion().likes.includes(authService.currentUser()?._id)">
 
             @if (publicacion().likes.includes(authService.currentUser()?._id)) {
-            ♥ Te gusta
+            ♥
             }
             @else {
-            ♡ Me gusta
+            ♡
             }
         </button>
 
         <span>
             {{ publicacion().cantidad_likes }} Me gusta
         </span>
+
+        <button type="button" (click)="abrirComentarios()">
+            Ver comentarios
+        </button>
 
         @if (
         authService.currentUser()?._id === publicacion().usuario ||

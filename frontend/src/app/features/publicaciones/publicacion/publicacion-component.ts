@@ -20,10 +20,15 @@ export class PublicacionComponent {
 
   publicacionActualizada = output<PublicacionInterface>();
   publicacionEliminada = output<string>();
+  publicacionSeleccionada = output<PublicacionInterface>();
 
   procesandoLike = signal(false);
   procesandoEliminacion = signal(false);
   mostrarModalEliminar = signal(false);
+
+  abrirComentarios(): void {
+    this.publicacionSeleccionada.emit(this.publicacion());
+  }
 
   abrirModalEliminar(): void {
     this.mostrarModalEliminar.set(true);
