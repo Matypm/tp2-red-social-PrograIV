@@ -2,9 +2,10 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth-service';
 import { Modal } from './shared/components/modal';
+import { Cargando } from './shared/components/cargando';
 
 @Component({
-  imports: [RouterOutlet, Modal],
+  imports: [RouterOutlet, Modal, Cargando],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
@@ -30,7 +31,11 @@ export class App implements OnInit{
     this.authService.extenderSesion().subscribe();
   }
 
-  cerrarSesion(): void {
-    this.authService.cerrarSesion();
+  cerrarAvisoSesion() {
+    this.authService.avisoDeSesion.set(false);
   }
+
+  // cerrarSesion(): void {
+  //   this.authService.cerrarSesion();
+  // }
 }

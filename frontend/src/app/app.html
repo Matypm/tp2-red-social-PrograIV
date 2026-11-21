@@ -1,8 +1,5 @@
 @if (cargando()) {
-  <div class="pantalla-carga">
-    <div class="spinner"></div>
-    <p>Preparando NexoCat...</p>
-  </div>
+  <app-cargando />
 } @else {
   <router-outlet></router-outlet>
 }
@@ -10,12 +7,12 @@
 @if (mostrarAvisoDeSesion()) {
   <app-modal
     titulo="Tu sesión está por expirar"
-    mensaje="Te quedan 5 minutos de sesión. ¿Querés extenderla?"
+    mensaje="Te queda 1 minuto de sesión. ¿Querés extenderla?"
     tipo="info"
     [confirmacion]="true"
-    txtCancelar="Cerrar sesión"
+    txtCancelar="Cerrar"
     txtConfirmar="Extender sesión"
-    (cerrar)="cerrarSesion()"
+    (cerrar)="cerrarAvisoSesion()"
     (confirmar)="extenderSesion()"
   />
 }

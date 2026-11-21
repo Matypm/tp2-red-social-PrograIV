@@ -19,6 +19,7 @@ export class AuthService {
 
     avisoDeSesion = signal(false);
     private temporizadorAviso: ReturnType<typeof setTimeout> | null = null;
+    private temporizadorExpiracion: ReturnType<typeof setTimeout> | null = null;
 
     signIn(datos: LoginInterface) {
         return this.apiService.post<RespuestaAuth>('login', datos);
@@ -88,9 +89,14 @@ export class AuthService {
             // Si el JWT es válido, guarda el usuario en las señales
             this.guardarUsuario(respuesta);
 
+            await this.router.navigate(['/publicaciones']);
+
         } catch (error) {
             // Si falla la petición, limpia el estado y deja al usuario sin sesión
             this.limpiarSesion();
+
+            // Redirige al login si tiro error
+            await this.router.navigate(['/login']);
         }
     }
 
@@ -100,12 +106,20 @@ export class AuthService {
             clearTimeout(this.temporizadorAviso);
         }
 
+        if(this.temporizadorExpiracion) {
+            clearTimeout(this.temporizadorExpiracion);
+        }
+
         this.avisoDeSesion.set(false);
 
-        // Pasados los 10 mins muestra el aviso
+        // Pasados los 2 mins muestra el aviso
         this.temporizadorAviso = setTimeout(() => {
             this.avisoDeSesion.set(true);
-        }, 10 * 60 * 1000);
+        }, 2 * 60 * 1000);
+
+        this.temporizadorExpiracion = setTimeout(() => {
+            this.cerrarSesion();
+        }, 3 * 60 * 1000);
     }
 
     extenderSesion(){

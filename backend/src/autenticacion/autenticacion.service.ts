@@ -132,7 +132,7 @@ export class AutenticacionService {
                 perfil,
             }),
             token_type: 'Bearer',
-            expires_in: 900,
+            expires_in: 180,
         };
     }
 

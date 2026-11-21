@@ -10,22 +10,15 @@
             ×
         </button>
 
-        <div class="contenido-modal">
+        <div 
+            class="contenido-modal"
+            [class.sin-imagen]="!publicacion().imagen">
 
+            @if (publicacion().imagen) {
             <div class="imagen-container">
-
-                @if (publicacion().imagen) {
-                    <img
-                        [src]="publicacion().imagen"
-                        [alt]="'Imagen de ' + publicacion().titulo">
-                }
-                @else {
-                    <div class="sin-imagen">
-                        Esta publicación no tiene imagen.
-                    </div>
-                }
-
+                <img [src]="publicacion().imagen" [alt]="'Imagen de ' + publicacion().titulo">
             </div>
+            }
 
             <div class="informacion-publicacion">
 

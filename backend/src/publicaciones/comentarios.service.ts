@@ -123,7 +123,9 @@ export class ComentariosService {
                 new: true,
                 runValidators: true
             }
-        );
+        )
+        .populate('usuario', 'nombre nombre_usuario img_perfil')
+        .exec();
 
         if (!comentario) {
             throw new NotFoundException(

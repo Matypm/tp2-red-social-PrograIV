@@ -26,16 +26,16 @@ export class AutenticacionController {
 
 
     private opcionesCookie(): CookieOptions {
-    const esProduccion = process.env.NODE_ENV === 'production';
+        const esProduccion = process.env.NODE_ENV === 'production';
 
-    return {
-        httpOnly: true,
-        secure: esProduccion,
-        sameSite: esProduccion ? 'none' : 'lax',
-        maxAge: 15 * 60 * 1000,
-        path: '/',
-    };
-}
+        return {
+            httpOnly: true,
+            secure: esProduccion,
+            sameSite: esProduccion ? 'none' : 'lax',
+            maxAge: 3 * 60 * 1000,
+            path: '/',
+        };
+    }
 
 @Post('register')
 @UseInterceptors(

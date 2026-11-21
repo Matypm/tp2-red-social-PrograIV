@@ -16,7 +16,15 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+}
+
+.layout-publicaciones {
+  background-color: var(--bg);
+  background-image: url('/fondoNexocat.png');
+  background-repeat: repeat;
+  background-size: 450px;
+  background-attachment: fixed;
 }
  
 .auth-page {
@@ -25,7 +33,10 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: url('/fondoNexocat.png');
+  background-repeat: repeat;
+  background-size: 450px;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--text);
 }
@@ -157,3 +168,4 @@ body {
 .auth-footer a:hover {
   color: var(--accent);
 }
+

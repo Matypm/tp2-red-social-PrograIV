@@ -26,6 +26,8 @@
   animation: aparecer-modal 0.35s ease;
 }
 
+
+
 /* ---- Botón de cerrar ---- */
 .btn-cerrar {
   position: absolute;
@@ -61,6 +63,14 @@
 }
 
 /* ---- Layout: imagen | información ---- */
+
+/* Cuando la publicación no tiene imagen */
+.contenido-modal.sin-imagen {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .contenido-modal {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
@@ -86,12 +96,6 @@
   object-fit: contain;
 }
 
-.sin-imagen {
-  padding: 24px;
-  text-align: center;
-  font-size: 0.92rem;
-  color: var(--text-muted);
-}
 
 /* ---- Información (derecha) ---- */
 .informacion-publicacion {
