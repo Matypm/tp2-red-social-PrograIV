@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto.js';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import * as bcrypt from 'bcrypt';
@@ -31,7 +31,11 @@ export class AutenticacionService {
             throw new UnauthorizedException('Credenciales incorrectas!');
         }
 
-        // Destructuring de la contraseña y los demas datos publicos del user
+        if (!usuario.habilitado) {
+            throw new ForbiddenException('Tu cuenta se encuentra deshabilitada. Contactá con un administrador');
+        }
+
+        // .Destructuring de la contraseña y los demas datos publicos del user
         // para retornar los datos sin la contraseña
         const { contrasenia, ...userSinContrasenia } = usuario.toObject();
 
@@ -95,6 +99,10 @@ export class AutenticacionService {
             throw new UnauthorizedException('Usuario no encontrado!');
         }
 
+        if (!usuario.habilitado) {
+            throw new ForbiddenException('Tu cuenta se encuentra deshabilitada.');
+        }
+
         const { contrasenia, ...userSinContrasenia } = usuario.toObject();
 
         return userSinContrasenia;
@@ -105,9 +113,18 @@ export class AutenticacionService {
             // Verifica la firma y que el token no haya expirado.
             const payload = await this.jwtService.verifyAsync(token);
 
+            // obtiene el id del usuario para acceder a los campos y ver si esta habilitado o no
+            const usuario = await this.usuarioService.buscarUserPorId(
+                payload.sub
+            );
+
+            if (!usuario || !usuario.habilitado) {
+                throw new ForbiddenException('Tu cuenta se encuentra deshabilitada o no existe.');
+            }
+
             // Genera nuevo token
             return this.generarToken(
-                payload.sub,
+                payload.id,
                 payload.correo,
                 payload.nombre_usuario,
                 payload.perfil
