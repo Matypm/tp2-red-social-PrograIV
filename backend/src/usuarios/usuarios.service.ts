@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsuarioMongo } from './schemas/usuario.schema.js';
 import { Model, mongo } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import * as bcrypt from 'bcrypt';
+import { tryLoadPackage } from '@nestjs/common/internal';
 
 type DatosCrearUsuario = {
     nombre: string;
@@ -121,4 +122,34 @@ export class UsuariosService {
             throw error;
         }
     }
+
+    async darDeBajaUser(usuarioId: string) {
+        const usuario = this.modelo.findByIdAndUpdate(
+            usuarioId,
+            { habilitado: false },
+            { new: true } // hace que devuelva el documento actualizado
+        ).select('-contrasenia').exec();
+
+        if(!usuario) {
+            throw new NotFoundException('Usuario no encontrado')
+        }
+
+        return usuario;
+    }
+
+    async darDeAltaUser(usuarioId: string) {
+        const usuario = await this.modelo.findOneAndUpdate( // a diferencia del byId este debe cumplir una condicion
+            { _id: usuarioId, habilitado: false }, // condicion q debe cumplir
+            { habilitado: true }, // cambia a true el campo habilitado
+            { new: true } // hace que devuelva el documento actualizado
+        ).select('-contrasenia').exec();
+
+        if(!usuario) {
+            throw new NotFoundException('Usuario ya habilitado o no encontrado');
+        }
+
+        return usuario;
+    }
+
+
 }

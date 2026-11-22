@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from '../autenticacion/jwt-auth-guard.js';
 import { RolesGuard } from '../autenticacion/common/guards/roles.guard.js';
 import { UsuariosService } from './usuarios.service.js';
@@ -42,5 +42,19 @@ export class UsuariosController {
     @Roles('administrador')
     async listarUsuarios() {
         return this.usuariosService.listarUsuarios()
-    } 
+    }
+    
+    @Delete(':id')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('administrador')
+    async darDeBajaUser(@Param('id') usuarioId: string) {
+        return this.usuariosService.darDeBajaUser(usuarioId);
+    }  
+    
+    @Post(':id/habilitar')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('administrador')
+    async darDeAltaUser(@Param('id') usuarioId: string) {
+        return this.usuariosService.darDeAltaUser(usuarioId);
+    }
 }
