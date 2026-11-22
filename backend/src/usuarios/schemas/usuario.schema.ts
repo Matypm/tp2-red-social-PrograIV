@@ -32,6 +32,9 @@ export class UsuarioMongo {
 
     @Prop({ default: 'usuario', enum: ['usuario', 'administrador'] })
     perfil!: string
+
+    @Prop({ default: true })
+    habilitado!: boolean;
 }
 
 export type UsuarioDocument = HydratedDocument<UsuarioMongo>;

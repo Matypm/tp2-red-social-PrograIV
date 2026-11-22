@@ -1,20 +1,14 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto.js';
 import { UsuariosService } from '../usuarios/usuarios.service.js';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto.js';
-import { InjectModel } from '@nestjs/mongoose';
-import { UsuarioMongo } from '../usuarios/schemas/usuario.schema/usuario.schema.js';
-import { Model, mongo } from 'mongoose';
-import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AutenticacionService {
     constructor(
-        @InjectModel(UsuarioMongo.name) private readonly usuarios: Model<UsuarioMongo>,
         private readonly usuarioService: UsuariosService,
-        private readonly cloudinaryService: CloudinaryService,
         private readonly jwtService: JwtService,
     ) { }
 
@@ -60,66 +54,24 @@ export class AutenticacionService {
             throw new BadRequestException('Las contraseñas no coinciden.')
         }
 
-        const userExistente = await this.usuarioService.buscarPorCorreoONombreUser(
-            datos.correo,
-            datos.nombre_usuario
+        const usuario = await this.usuarioService.crearUser(
+            datos,
+            archivo,
+            'usuario'
         );
 
-        if (userExistente) {
-            throw new ConflictException('El correo o nombre de usuario ya esta registrado. Intente con otros');
-        }
+        const { contrasenia, ...userSinContrasenia } = usuario.toObject();
 
-        let imgSubida: { url: string, publicId: string } | undefined;
+        const datosToken = await this.generarToken(
+            usuario.id,
+            usuario.correo,
+            usuario.nombre_usuario,
+            usuario.perfil
+        );
 
-        try {
-            let img_perfil = '';
-            let img_perfil_public_id = '';
-
-            if (archivo) {
-                const buffer = await this.cloudinaryService.normalizar(archivo);
-
-                imgSubida = await this.cloudinaryService.subir(buffer);
-
-                img_perfil = imgSubida.url;
-                img_perfil_public_id = imgSubida.publicId;
-            }
-
-            const usuario = await this.usuarios.create({
-                nombre: datos.nombre,
-                apellido: datos.apellido,
-                correo: datos.correo,
-                nombre_usuario: datos.nombre_usuario,
-                contrasenia: await bcrypt.hash(datos.contrasenia, 10),
-                fecha_nacimiento: datos.fecha_nacimiento,
-                descripcion: datos.descripcion,
-                img_perfil, // URL para mostrar la foto de perfil.
-                img_perfil_public_id, // Identificador para poder eliminarla de Cloudinary.
-            });
-
-            const { contrasenia, ...userSinContrasenia } = usuario.toObject();
-
-            const datosToken = await this.generarToken(
-                usuario.id as string,
-                usuario.correo,
-                usuario.nombre_usuario,
-                usuario.perfil
-            );
-
-            return {
-                usuario: userSinContrasenia,
-                ...datosToken
-            }
-
-        } catch (error) {
-
-            if (imgSubida) {
-                await this.cloudinaryService.eliminar(imgSubida.publicId);
-            }
-
-            if (error instanceof mongo.MongoServerError && error.code === 11000) {
-                throw new ConflictException('El email ya esta registrado.')
-            }
-            throw error;
+        return {
+            usuario: userSinContrasenia,
+            ...datosToken
         }
     }
 

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types, type HydratedDocument } from 'mongoose';
-import { UsuarioMongo } from '../../usuarios/schemas/usuario.schema/usuario.schema.js';
+import { UsuarioMongo } from '../../usuarios/schemas/usuario.schema.js';
 
 @Schema({ collection: 'publicaciones', versionKey: false })
 export class PublicacionMongo {

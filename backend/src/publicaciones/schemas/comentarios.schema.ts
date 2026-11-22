@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Types } from "mongoose";
-import { UsuarioMongo } from "../../usuarios/schemas/usuario.schema/usuario.schema.js";
+import { UsuarioMongo } from "../../usuarios/schemas/usuario.schema.js";
 import { PublicacionMongo } from "./publicacion.schema.js";
 
 
