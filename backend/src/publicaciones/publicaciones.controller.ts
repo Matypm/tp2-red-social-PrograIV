@@ -50,9 +50,10 @@ export class PublicacionesController {
     }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard)
     eliminarPublicacion(
         @Param('id') publicacionId : string,
-        @Body('usuarioId') usuarioId : string
+        @UsuarioActual('sub') usuarioId : string
     ) {
         return this.publicacionesService.eliminarPublicacion(publicacionId, usuarioId);
     }

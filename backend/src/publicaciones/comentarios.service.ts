@@ -108,6 +108,26 @@ export class ComentariosService {
             throw new BadRequestException('ID de usuario inválido.');
         }
 
+        const comentarioExistente = await this.comentarios.findOne({
+            _id: new Types.ObjectId(comentarioId),
+            usuario: new Types.ObjectId(usuarioId)
+        }).exec();
+
+        if (!comentarioExistente) {
+            throw new NotFoundException(
+                'Comentario no encontrado o no tenés permiso para editarlo.'
+            );
+        }
+
+        const existePublicacion = await this.publicaciones.exists({
+            _id: comentarioExistente.publicacion,
+            eliminada: false
+        });
+
+        if (!existePublicacion) {
+            throw new NotFoundException('Publicación no encontrada.');
+        }
+
         const comentario = await this.comentarios.findOneAndUpdate(
             {
                 _id: new Types.ObjectId(comentarioId),
