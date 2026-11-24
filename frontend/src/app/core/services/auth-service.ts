@@ -89,14 +89,13 @@ export class AuthService {
             // Si el JWT es válido, guarda el usuario en las señales
             this.guardarUsuario(respuesta);
 
-            await this.router.navigate(['/publicaciones']);
 
         } catch (error) {
             // Si falla la petición, limpia el estado y deja al usuario sin sesión
             this.limpiarSesion();
 
             // Redirige al login si tiro error
-            await this.router.navigate(['/login']);
+             await this.router.navigate(['/login']);
         }
     }
 

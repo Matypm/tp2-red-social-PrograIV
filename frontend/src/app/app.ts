@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth-service';
 import { Modal } from './shared/components/modal';
@@ -10,18 +10,13 @@ import { Cargando } from './shared/components/cargando';
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App implements OnInit{
+export class App{
 
   protected readonly title = signal('frontend');
 
   private authService = inject(AuthService);
 
-  cargando = signal(true);
-
-  async ngOnInit(): Promise<void> {
-    await this.authService.restaurarSesion();
-    this.cargando.set(false);
-  }
+  cargando = signal(false);
 
   mostrarAvisoDeSesion(): boolean{
     return this.authService.avisoDeSesion();
