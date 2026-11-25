@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PublicacionesService } from '../../core/services/publicaciones-service';
 import { PublicacionInterface } from '../../core/interfaces/publicaciones.interface';
 import { PublicacionComponent } from './publicacion/publicacion-component';
@@ -16,10 +16,14 @@ export class PublicacionesComponent implements OnInit {
 
   private publicacionesService = inject(PublicacionesService);
   authService = inject(AuthService);
+  private router = inject(Router);
 
   publicaciones = signal<PublicacionInterface[]>([]);
   cargando = signal(false);
   error = signal('');
+
+  usuario = this.authService.currentPerfil();
+  esAdmin = signal(false);
 
   orden = signal<'fecha' | 'likes'>('fecha');
 
@@ -36,6 +40,14 @@ export class PublicacionesComponent implements OnInit {
 
   cerrarSesion() {
     this.authService.cerrarSesion();
+  }
+
+  irADashboardAdmin() {
+    if(this.usuario === 'administrador') {
+      this.esAdmin.set(true);
+    }
+
+    this.router.navigate(['/dashboard'])
   }
 
   ngOnInit(): void {

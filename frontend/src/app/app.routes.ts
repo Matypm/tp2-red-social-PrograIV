@@ -31,6 +31,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/publicaciones/detalle-publicacion-component/detalle-publicacion').then(c => c.DetallePublicacion)
     },
     {
+        path: 'dashboard',
+        canActivate: [authAdminGuard],
+        loadComponent: () => import('./features/dashboard/dashboard-principal-component').then(c => c.DashboardPrincipalComponent)
+    },
+    {
         path: 'dashboard/usuarios',
         canActivate: [authAdminGuard],
         loadComponent: () => import('./features/dashboard/usuarios/usuarios-admin-component').then(c => c.UsuariosAdminComponent)

@@ -1,0 +1,62 @@
+<header class="dashboard-header">
+  <div class="bienvenida">
+    <span class="marca">NEXOCAT · ADMIN</span>
+    <h1>¡Bienvenido, {{ user()?.nombre }}!</h1>
+    <p>Panel de administración</p>
+  </div>
+
+  <nav class="acciones">
+    <button class="btn-principal" (click)="volverAPublicaciones()">
+      Pantalla principal
+    </button>
+
+    <button class="btn-cerrar" (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </nav>
+</header>
+
+<main class="dashboard-main">
+  <div class="titulo-seccion">
+    <h2>Panel de control</h2>
+    <p>Seleccioná una sección para comenzar a administrar.</p>
+  </div>
+
+  <section class="cards-container">
+
+    <article class="dashboard-card" (click)="irAUsuarios()">
+
+      <div class="card-contenido">
+        <h3>Gestión de usuarios</h3>
+        <p>
+          Administrá las cuentas de la red social, creá nuevos usuarios
+          y modificá sus permisos y estados.
+        </p>
+      </div>
+
+      <div class="card-footer">
+        <span>Administrar usuarios</span>
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </article>
+
+    <div class="dashboard-card" (click)="irAEstadisticas()">
+
+      <div class="card-contenido">
+        <h3>Estadísticas</h3>
+        <p>
+          Consultá métricas de actividad, publicaciones y comentarios
+          para analizar el funcionamiento de la plataforma.
+        </p>
+      </div>
+
+      <div class="card-footer">
+        <span>Ver estadísticas</span>
+        <i class="bi bi-arrow-right"></i>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+
