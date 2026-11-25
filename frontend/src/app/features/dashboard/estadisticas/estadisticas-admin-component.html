@@ -1,1 +1,100 @@
-<p>estadisticas-admin-component works!</p>
+<main class="estadisticas-container">
+
+  <header class="encabezado">
+    <div>
+      <h1>Estadísticas</h1>
+      <p>Visualización de la actividad de NexoCat</p>
+    </div>
+
+    <button type="button" routerLink="/dashboard">
+    Volver al dashboard
+    </button>
+  </header>
+
+  <section class="filtros">
+    <h2>Seleccionar período</h2>
+
+    <div class="filtros-fechas">
+      <div class="campo">
+        <label for="fechaDesde">Desde</label>
+        <input
+          type="date"
+          id="fechaDesde"
+          [(ngModel)]="fechaDesde"
+        >
+      </div>
+
+      <div class="campo">
+        <label for="fechaHasta">Hasta</label>
+        <input
+          type="date"
+          id="fechaHasta"
+          [(ngModel)]="fechaHasta"
+        >
+      </div>
+
+      <button
+        type="button"
+        (click)="consultarEstadisticas()"
+        [disabled]="cargando()"
+      >
+        {{ cargando() ? 'Consultando...' : 'Consultar' }}
+      </button>
+    </div>
+
+    @if (error()) {
+      <p class="mensaje-error">{{ error() }}</p>
+    }
+  </section>
+
+  @if (cargando()) {
+    <p class="mensaje-carga">Cargando estadísticas...</p>
+  }
+
+  <section class="graficos">
+
+    <article class="grafico-card">
+      <h2>Publicaciones por usuario</h2>
+      <p>Cantidad de publicaciones realizadas por cada usuario.</p>
+
+      <div class="grafico">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [data]="publicacionesData"
+          [options]="publicacionesOptions"
+        ></canvas>
+      </div>
+    </article>
+
+    <article class="grafico-card">
+      <h2>Comentarios por día</h2>
+      <p>Evolución de los comentarios realizados durante el período.</p>
+
+      <div class="grafico">
+        <canvas
+          baseChart
+          [type]="'line'"
+          [data]="comentariosData"
+          [options]="comentariosOptions"
+        ></canvas>
+      </div>
+    </article>
+
+    <article class="grafico-card">
+      <h2>Comentarios por publicación</h2>
+      <p>Distribución de los comentarios según cada publicación.</p>
+
+      <div class="grafico grafico-circular">
+        <canvas
+          baseChart
+          [type]="'pie'"
+          [data]="comentariosPublicacionData"
+          [options]="comentariosPublicacionOptions"
+        ></canvas>
+      </div>
+    </article>
+
+  </section>
+
+</main>

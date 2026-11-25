@@ -11,6 +11,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthService } from './core/services/auth-service';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,8 @@ export const appConfig: ApplicationConfig = {
 
     provideAppInitializer(() => {
       return inject(AuthService).restaurarSesion();
-    })
+    }),
+
+    provideCharts(withDefaultRegisterables())
   ]
 };

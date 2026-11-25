@@ -1,0 +1,331 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color-scheme: dark;            /* el selector de fecha nativo se ve oscuro */
+  --admin-bg:           #141312;
+  --admin-surface:      #1C1B1A;
+  --admin-border:       #2E2B28;
+  --admin-border-input: #3A3631;
+  --admin-text:         #F6F3EE;
+  --admin-muted:        #9A948A;
+  --admin-accent:       #C9A98A;
+  --admin-accent-hover: #D8BC9F;
+  --admin-danger:       #E0897B;
+  --admin-danger-soft:  rgba(224, 137, 123, 0.12);
+  --admin-danger-line:  rgba(224, 137, 123, 0.35);
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ================= LAYOUT ================= */
+
+.estadisticas-container {
+  width: 100%;
+  max-width: 1100px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+}
+
+/* ---- Encabezado ---- */
+.encabezado {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.encabezado h1 {
+  margin: 0 0 6px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: var(--admin-text);
+}
+
+.encabezado p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--admin-muted);
+}
+
+/* "Volver al dashboard": botón de contorno con flechita */
+.encabezado > button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--admin-text);
+  background: transparent;
+  border: 1px solid var(--admin-border-input);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.encabezado > button::before {
+  content: '←';
+  transition: transform 0.3s ease;
+}
+
+.encabezado > button:hover {
+  background: rgba(201, 169, 138, 0.08);
+  border-color: var(--admin-accent);
+}
+
+.encabezado > button:hover::before {
+  transform: translateX(-3px);
+}
+
+.encabezado > button:focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 3px;
+}
+
+/* ================= FILTROS ================= */
+
+.filtros {
+  margin-bottom: 24px;
+  padding: 24px 28px 28px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+}
+
+.filtros h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--admin-accent);
+}
+
+/* rayita beige antes del título */
+.filtros h2::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--admin-accent);
+}
+
+.filtros-fechas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 170px;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+}
+
+.campo input[type='date'] {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  color: var(--admin-text);
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border-input);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.campo input[type='date']:focus {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px rgba(201, 169, 138, 0.15);
+}
+
+.campo input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.25s ease;
+}
+
+.campo input[type='date']::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Botón "Consultar" */
+.filtros-fechas > button {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 26px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--admin-bg);
+  background: var(--admin-accent);
+  border: 1px solid var(--admin-accent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+              transform 0.3s ease, opacity 0.3s ease;
+}
+
+.filtros-fechas > button:hover:not(:disabled) {
+  background: var(--admin-accent-hover);
+  border-color: var(--admin-accent-hover);
+  box-shadow: 0 8px 24px -8px rgba(201, 169, 138, 0.55);
+  transform: translateY(-2px);
+}
+
+.filtros-fechas > button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.filtros-fechas > button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.filtros-fechas > button:focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 3px;
+}
+
+/* ================= MENSAJES ================= */
+
+.mensaje-error {
+  margin: 18px 0 0;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  color: var(--admin-danger);
+  background: var(--admin-danger-soft);
+  border: 1px solid var(--admin-danger-line);
+  border-radius: 12px;
+}
+
+.mensaje-carga {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--admin-muted);
+}
+
+/* ================= GRÁFICOS ================= */
+
+.graficos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* El primero (barras) ocupa todo el ancho; los otros dos van lado a lado */
+.grafico-card:first-child {
+  grid-column: 1 / -1;
+}
+
+.grafico-card {
+  min-width: 0;
+  padding: 24px 28px 28px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  transition: border-color 0.3s ease;
+}
+
+.grafico-card:hover {
+  border-color: rgba(201, 169, 138, 0.4);
+}
+
+.grafico-card h2 {
+  margin: 0 0 4px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--admin-text);
+}
+
+.grafico-card p {
+  margin: 0 0 22px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--admin-muted);
+}
+
+/* Chart.js necesita un contenedor relativo con alto definido */
+.grafico {
+  position: relative;
+  width: 100%;
+  height: 320px;
+}
+
+.grafico-circular {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grafico canvas {
+  max-width: 100%;
+}
+
+/* ================= TABLET / CELULARES ================= */
+
+@media (max-width: 860px) {
+  .graficos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .estadisticas-container {
+    padding: 28px 16px 48px;
+  }
+
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 1.5rem;
+  }
+
+  .filtros,
+  .grafico-card {
+    padding: 20px 18px 22px;
+  }
+
+  .filtros-fechas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .campo {
+    min-width: 0;
+  }
+
+  .filtros-fechas > button {
+    width: 100%;
+  }
+
+  .grafico {
+    height: 260px;
+  }
+}
