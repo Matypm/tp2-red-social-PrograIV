@@ -8,6 +8,8 @@ import { UsuariosModule } from '../usuarios/usuarios.module.js';
 import { ComentarioMongo, ComentarioSchema } from './schemas/comentarios.schema.js';
 import { ComentariosService } from './comentarios.service.js';
 import { ComentariosController } from './comentarios.controller.js';
+import { EstadisticasService } from './estadisticas.service.js';
+import { EstadisticasController } from './estadisticas.controller.js';
 
 @Module({
   imports: [
@@ -24,8 +26,8 @@ import { ComentariosController } from './comentarios.controller.js';
     CloudinaryModule,
     UsuariosModule,
   ],
-  controllers: [PublicacionesController, ComentariosController],
-  providers: [PublicacionesService, ComentariosService],
+  controllers: [PublicacionesController, ComentariosController, EstadisticasController],
+  providers: [PublicacionesService, ComentariosService, EstadisticasService],
   exports: [PublicacionesService]
 })
 export class PublicacionesModule { }
