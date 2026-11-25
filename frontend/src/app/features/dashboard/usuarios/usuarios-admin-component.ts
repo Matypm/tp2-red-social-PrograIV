@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ApiService } from '../../../core/services/api-service';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [],
@@ -10,6 +11,7 @@ import { ApiService } from '../../../core/services/api-service';
 export class UsuariosAdminComponent {
 
   private apiService = inject(ApiService);
+  private router = inject(Router);
 
   usuarios = signal<any[]>([]);
   cargando = signal(true);
@@ -81,5 +83,9 @@ export class UsuariosAdminComponent {
         this.cargando.set(false);
       }
     });
+  }
+
+  irACrearUsuario() {
+    this.router.navigate(['/dashboard/usuarios/crear']);
   }
 }

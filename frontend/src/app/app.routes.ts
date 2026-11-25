@@ -45,4 +45,9 @@ export const routes: Routes = [
         canActivate: [authAdminGuard],
         loadComponent: () => import('./features/dashboard/estadisticas/estadisticas-admin-component').then(c => c.EstadisticasAdminComponent)
     },
+    {
+        path: 'dashboard/usuarios/crear',
+        canActivate: [authAdminGuard],
+        loadComponent: () => import('./features/dashboard/usuarios/crear-usuario/crear-usuario-component').then(c => c.CrearUsuarioComponent)
+    },
 ];

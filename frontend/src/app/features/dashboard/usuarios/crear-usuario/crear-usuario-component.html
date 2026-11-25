@@ -1,0 +1,163 @@
+<main class="crear-usuario-main">
+
+  <header class="encabezado">
+    <div>
+      <h1>Crear usuario</h1>
+      <p>Completá los datos para registrar una nueva cuenta en NexoCat.</p>
+    </div>
+
+    <button 
+        type="button" 
+        class="btn-volver" 
+        (click)="volverAUsuarios()"
+    >
+    Volver
+    </button>
+  </header>
+
+  <form [formGroup]="crearUsuarioForm" (ngSubmit)="onSubmit()">
+
+    <section class="formulario-seccion">
+      <h2>Información personal</h2>
+
+      <div class="campos-grid">
+
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre">
+        </div>
+
+        <div class="campo">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" type="text" formControlName="apellido">
+        </div>
+
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" type="email" formControlName="correo">
+        </div>
+
+        <div class="campo">
+          <label for="nombre_usuario">Nombre de usuario</label>
+          <input id="nombre_usuario" type="text" formControlName="nombre_usuario">
+        </div>
+
+        <div class="campo">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" formControlName="descripcion"></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="formulario-seccion">
+      <h2>Fecha de nacimiento</h2>
+
+      <div class="campos-fecha">
+
+        <div class="campo">
+          <label for="dia">Día</label>
+          <input id="dia" type="number" min="1" max="31" formControlName="dia">
+        </div>
+
+        <div class="campo">
+          <label for="mes">Mes</label>
+          <select id="mes" formControlName="mes">
+            <option value="">Seleccionar</option>
+            @for (mes of meses; track mes.valor) {
+              <option [value]="mes.valor">{{ mes.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="anio">Año</label>
+          <input id="anio" type="number" formControlName="anio">
+        </div>
+
+      </div>
+    </section>
+
+    <section class="formulario-seccion">
+      <h2>Seguridad</h2>
+
+      <div class="campos-grid">
+
+        <div class="campo">
+          <label for="contrasenia">Contraseña</label>
+          <input id="contrasenia" type="password" formControlName="contrasenia">
+          <small>Mínimo 8 caracteres, una mayúscula y un número.</small>
+        </div>
+
+        <div class="campo">
+          <label for="repetir_contrasenia">Repetir contraseña</label>
+          <input id="repetir_contrasenia" type="password" formControlName="repetir_contrasenia">
+        </div>
+
+      </div>
+    </section>
+
+    <section class="formulario-seccion">
+      <h2>Imagen de perfil</h2>
+
+      <div class="campo">
+        <label for="img_perfil">Seleccionar imagen (opcional)</label>
+        <input
+          id="img_perfil"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          (change)="onFileSelected($event)"
+        >
+        <small>Formatos admitidos: JPG, PNG y WebP. Máximo 5 MB.</small>
+      </div>
+    </section>
+
+    <section class="formulario-seccion">
+      <h2>Perfil de usuario</h2>
+
+      <div class="opciones-perfil">
+
+        <label>
+          <input
+            type="radio"
+            formControlName="perfil"
+            value="usuario"
+          >
+          Usuario
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            formControlName="perfil"
+            value="administrador"
+          >
+          Administrador
+        </label>
+
+      </div>
+    </section>
+
+    @if (errorMensaje()) {
+    <p class="mensaje-error">
+        {{ errorMensaje() }}
+    </p>
+    }
+
+    <div class="acciones-formulario">
+      <button type="button" class="btn-cancelar" (click)="volverAUsuarios()">
+        Cancelar
+      </button>
+
+      <button type="submit" class="btn-crear" [disabled]="cargando()">
+        @if (cargando()) {
+          Creando usuario...
+        } @else {
+          Crear usuario
+        }
+      </button>
+    </div>
+
+  </form>
+
+</main>
