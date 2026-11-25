@@ -24,7 +24,7 @@
 
   <section class="cards-container">
 
-    <article class="dashboard-card" (click)="irAUsuarios()">
+    <article appResaltar class="dashboard-card" (click)="irAUsuarios()">
 
       <div class="card-contenido">
         <h3>Gestión de usuarios</h3>
@@ -36,11 +36,10 @@
 
       <div class="card-footer">
         <span>Administrar usuarios</span>
-        <i class="bi bi-arrow-right"></i>
       </div>
     </article>
 
-    <div class="dashboard-card" (click)="irAEstadisticas()">
+    <div appResaltar class="dashboard-card" (click)="irAEstadisticas()">
 
       <div class="card-contenido">
         <h3>Estadísticas</h3>

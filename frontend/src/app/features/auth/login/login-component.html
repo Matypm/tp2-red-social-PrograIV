@@ -5,7 +5,11 @@
         <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="identificador">Correo electronico/usuario</label>
-                <input type="text" formControlName="identificador" id="identificador">
+                <input 
+                    type="text" 
+                    formControlName="identificador" 
+                    id="identificador"
+                    appAutofoco>
             </div>
             <div class="form-group">
                 <label for="contrasenia">Contraseña</label>

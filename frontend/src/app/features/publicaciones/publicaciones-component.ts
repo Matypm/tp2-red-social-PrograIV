@@ -5,9 +5,10 @@ import { PublicacionInterface } from '../../core/interfaces/publicaciones.interf
 import { PublicacionComponent } from './publicacion/publicacion-component';
 import { AuthService } from '../../core/services/auth-service';
 import { DetallePublicacion } from './detalle-publicacion-component/detalle-publicacion';
+import { SoloAdminDirective } from '../../shared/directives/solo-admin';
 
 @Component({
-  imports: [RouterLink, PublicacionComponent, DetallePublicacion],
+  imports: [RouterLink, PublicacionComponent, DetallePublicacion, SoloAdminDirective],
   selector: 'app-publicaciones-component',
   styleUrl: './publicaciones-component.css',
   templateUrl: './publicaciones-component.html',

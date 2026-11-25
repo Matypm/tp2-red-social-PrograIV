@@ -4,9 +4,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Modal } from '../../../shared/components/modal';
 import { form } from '@angular/forms/signals';
+import { AutofocoDirective } from '../../../shared/directives/autofoco';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, Modal],
+  imports: [ReactiveFormsModule, RouterLink, Modal, AutofocoDirective],
   selector: 'app-register-component',
   styleUrl: './register-component.css',
   templateUrl: './register-component.html',

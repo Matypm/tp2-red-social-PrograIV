@@ -1,18 +1,20 @@
+
 /* ================= PALETA + FONDO ================= */
 
 :host {
   display: block;
   min-height: 100vh;
-  --admin-bg:           #141312;
-  --admin-surface:      #1C1B1A;
-  --admin-border:       #2E2B28;
-  --admin-text:         #F6F3EE;
-  --admin-muted:        #9A948A;
-  --admin-accent:       #C9A98A;
+  --admin-bg: #141312;
+  --admin-surface: #1C1B1A;
+  --admin-border: #2E2B28;
+  --admin-text: #F6F3EE;
+  --admin-muted: #9A948A;
+  --admin-accent: #C9A98A;
   --admin-accent-hover: #D8BC9F;
-  --admin-danger:       #E0897B;
-  --admin-danger-soft:  rgba(224, 137, 123, 0.12);
-  --admin-danger-line:  rgba(224, 137, 123, 0.35);
+  --admin-danger: #E0897B;
+  --admin-danger-soft: rgba(224, 137, 123, 0.12);
+  --admin-danger-line: rgba(224, 137, 123, 0.35);
+
   background: var(--admin-bg);
   color: var(--admin-text);
   font-family: 'Inter', system-ui, sans-serif;
@@ -71,6 +73,7 @@
 }
 
 /* ---- Botones del header ---- */
+
 .acciones {
   display: flex;
   align-items: center;
@@ -95,7 +98,7 @@
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease,
-              box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .btn-principal:focus-visible,
@@ -176,6 +179,7 @@
 }
 
 /* ---- Grilla de tarjetas ---- */
+
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -183,6 +187,7 @@
 }
 
 /* ---- Tarjeta ---- */
+
 .dashboard-card {
   position: relative;
   display: flex;
@@ -197,44 +202,34 @@
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* resplandor beige suave en la esquina al pasar el mouse */
+/* Resplandor beige: la directiva controla su opacidad
+   mediante la variable --resplandor. */
+
 .dashboard-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(201, 169, 138, 0.12), transparent 55%);
-  opacity: 0;
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(201, 169, 138, 0.12),
+    transparent 55%
+  );
+  opacity: var(--resplandor, 0);
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
+
+/* Mantiene el contenido por encima del resplandor. */
 
 .dashboard-card > * {
   position: relative;
 }
 
-.dashboard-card:hover,
-.dashboard-card:focus-visible {
-  border-color: var(--admin-accent);
-  transform: translateY(-4px);
-  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
-}
-
-.dashboard-card:hover::before,
-.dashboard-card:focus-visible::before {
-  opacity: 1;
-}
-
-.dashboard-card:focus-visible {
-  outline: 2px solid var(--admin-accent);
-  outline-offset: 3px;
-}
-
-.dashboard-card:hover .card-icono {
-  color: var(--admin-bg);
-  background: var(--admin-accent);
-}
+/* Los efectos hover y focus-visible de las tarjetas
+   se trasladaron a la directiva appResaltar. */
 
 /* ---- Texto ---- */
+
 .card-contenido h3 {
   margin: 0 0 8px;
   font-family: 'Playfair Display', Georgia, serif;
@@ -251,11 +246,12 @@
 }
 
 /* ---- Pie con la flechita ---- */
+
 .card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: auto;            /* empuja el pie hacia abajo si una tarjeta es más alta */
+  margin-top: auto;
   padding-top: 18px;
   font-size: 0.88rem;
   font-weight: 500;
@@ -267,9 +263,8 @@
   transition: transform 0.3s ease;
 }
 
-.dashboard-card:hover .card-footer i {
-  transform: translateX(5px);
-}
+/* El desplazamiento de la flecha también lo controla
+   la directiva appResaltar. */
 
 /* ================= CELULARES ================= */
 
@@ -313,3 +308,5 @@
     padding: 22px;
   }
 }
+
+

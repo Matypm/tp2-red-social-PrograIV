@@ -9,11 +9,13 @@
     <a routerLink="/perfil" class="btn-perfil">
       Mi perfil
     </a>
-    @if(usuario === 'administrador'){
-      <button (click)="irADashboardAdmin()" class="btn-perfil">
-        Dashboard admin
-      </button>
-    }
+    <button 
+      appSoloAdmin 
+      (click)="irADashboardAdmin()" 
+      class="btn-perfil"
+      >
+      Dashboard admin
+    </button>
     <button (click)="cerrarSesion()" class="btn-perfil">
       Cerrar Sesión
     </button>

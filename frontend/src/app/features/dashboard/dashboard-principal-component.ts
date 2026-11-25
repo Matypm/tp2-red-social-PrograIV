@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../core/services/auth-service';
 import { Router, RouterLink } from '@angular/router';
+import { ResaltarDirective } from '../../shared/directives/resaltar';
 
 @Component({
-  imports: [],
+  imports: [ResaltarDirective],
   selector: 'app-dashboard-principal-component',
   styleUrl: './dashboard-principal-component.css',
   templateUrl: './dashboard-principal-component.html',
