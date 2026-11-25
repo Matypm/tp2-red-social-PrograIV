@@ -1,1 +1,88 @@
-<p>usuarios-admin-component works!</p>
+
+<main class="usuarios-main">
+
+  <section class="encabezado">
+    <div>
+      <h1>Gestión de usuarios</h1>
+      <p>Administrá las cuentas registradas en NexoCat.</p>
+    </div>
+
+    <button 
+        class="btn-crear">
+      +
+      Crear usuario
+    </button>
+  </section>
+
+  <section class="tabla-container">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Usuario</th>
+          <th>Correo</th>
+          <th>Perfil</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (usuario of usuarios(); track usuario._id) {
+          <tr>
+            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+
+            <td>{{ usuario.nombre_usuario }}</td>
+
+            <td>{{ usuario.correo }}</td>
+
+            <td>
+              <span
+                class="perfil"
+                [class.admin]="usuario.perfil === 'administrador'">
+                {{ usuario.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}
+              </span>
+            </td>
+
+            <td>
+              @if (usuario.habilitado) {
+                <span class="estado activo">Activo</span>
+              } @else {
+                <span class="estado inactivo">Inactivo</span>
+              }
+            </td>
+
+            <td>
+              @if (usuario.habilitado) {
+                <button 
+                    class="btn-deshabilitar"
+                    (click)="deshabilitarUsuario(usuario._id)">
+                  Deshabilitar
+                </button>
+              } @else {
+                <button 
+                    class="btn-habilitar"
+                    (click)="habilitarUsuario(usuario._id)">
+                  Habilitar
+                </button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="sin-usuarios">
+              No hay usuarios registrados.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  </section>
+
+  <p class="total-usuarios">
+    Total de usuarios: {{ usuarios().length }}
+  </p>
+
+</main>
