@@ -1,8 +1,14 @@
 <div class="publicacion">
 
     <header class="encabezado-publicacion">
-        <img [src]="publicacion().autor.img_perfil || '/usuario.png'" [alt]="'Foto de ' + publicacion().autor.nombre"
-            class="foto-perfil">
+        @if (publicacion().autor.img_perfil) {
+        <img [src]="publicacion().autor.img_perfil" [alt]="'Foto de ' + publicacion().autor.nombre" class="foto-perfil">
+        }
+        @else {
+        <div class="foto-perfil iniciales">
+            {{ publicacion().autor.nombre | iniciales:publicacion().autor.apellido }}
+        </div>
+        }
 
         <div class="datos-autor">
             <h3>
@@ -13,13 +19,17 @@
             <span>
                 @{{ publicacion().autor.nombre_usuario }}
             </span>
+
+            <span class="fecha-publicacion">
+                {{ publicacion().fecha_creacion | fechaRelativa }}
+            </span>
         </div>
     </header>
 
     <div class="contenido-publicacion">
         <h2>{{ publicacion().titulo }}</h2>
 
-        <p>{{ publicacion().descripcion }}</p>
+        <p>{{ publicacion().descripcion | textoCorto:70 }}</p>
 
         @if (publicacion().imagen) {
         <img [src]="publicacion().imagen" [alt]="'Imagen de ' + publicacion().titulo" class="imagen-publicacion">

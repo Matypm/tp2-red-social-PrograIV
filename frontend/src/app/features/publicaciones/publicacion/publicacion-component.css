@@ -33,6 +33,23 @@
   border: 2px solid var(--accent-soft);
   background: var(--accent-soft);
 }
+
+/* ---- Avatar con iniciales ---- */
+.foto-perfil.iniciales {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  user-select: none;
+}
  
 .datos-autor {
   display: flex;

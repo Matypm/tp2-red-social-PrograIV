@@ -3,9 +3,12 @@ import { PublicacionInterface } from '../../../core/interfaces/publicaciones.int
 import { AuthService } from '../../../core/services/auth-service';
 import { PublicacionesService } from '../../../core/services/publicaciones-service';
 import { Modal } from '../../../shared/components/modal';
+import { TextoCortoPipe } from '../../../shared/pipes/texto-corto-pipe';
+import { FechaRelativaPipe } from '../../../shared/pipes/fecha-relativa-pipe';
+import { InicialesPipe } from '../../../shared/pipes/iniciales-pipe';
 
 @Component({
-  imports: [Modal],
+  imports: [Modal, TextoCortoPipe, FechaRelativaPipe, InicialesPipe],
   selector: 'app-publicacion-component',
   styleUrl: './publicacion-component.css',
   templateUrl: './publicacion-component.html',
